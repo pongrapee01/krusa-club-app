@@ -3,6 +3,8 @@ import { useEffect, useId, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 
+import { NavMenuIcon } from '@/components/NavMenuIcon'
+
 import { useAppLayout } from '@/hooks/useAppLayout'
 import { useNavItems } from '@/hooks/useNavItems'
 import { isNavItemActive } from '@/lib/nav-utils'
@@ -201,7 +203,10 @@ export function AppHeader() {
                 })
               }
             >
-              {item.label}
+              <span className="inline-flex items-center gap-2">
+                <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
+                <span>{item.label}</span>
+              </span>
             </NavLink>
           ))}
         </nav>
@@ -288,7 +293,10 @@ export function AppHeader() {
                 )
               }
             >
-              {loginLabel}
+              <span className="inline-flex items-center gap-2">
+                <NavMenuIcon icon={loginNavItem.icon} className="size-4 shrink-0 opacity-90" />
+                <span>{loginLabel}</span>
+              </span>
             </NavLink>
           ) : null}
 
@@ -323,7 +331,10 @@ export function AppHeader() {
               }
               onClick={() => setMobileOpen(false)}
             >
-              {item.label}
+              <span className="inline-flex items-center gap-2">
+                <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
+                <span>{item.label}</span>
+              </span>
             </NavLink>
           ))}
           {isAuthenticated ? (

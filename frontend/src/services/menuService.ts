@@ -33,39 +33,77 @@ type NavigationApiResponse =
 
 const NAVIGATION_ENDPOINT = '/menus/me'
 
+function asRecord(dto: unknown): Record<string, unknown> {
+  return dto !== null && typeof dto === 'object' ? (dto as Record<string, unknown>) : {}
+}
+
+/** รองรับ JSON camelCase + PascalCase จาก .NET */
+function getSubMenus(dto: MenuItemDto): MenuItemDto[] {
+  const r = asRecord(dto)
+  const raw = r.subMenus ?? r.SubMenus
+  return Array.isArray(raw) ? (raw as MenuItemDto[]) : []
+}
+
+function pickIcon(dto: MenuItemDto): string | undefined {
+  const r = asRecord(dto)
+  const v = r.icon ?? r.Icon
+  if (v == null) return undefined
+  const s = String(v).trim()
+  return s === '' ? undefined : s
+}
+
+function pickMenuType(dto: MenuItemDto): string | null | undefined {
+  const r = asRecord(dto)
+  const v = r.menuType ?? r.MenuType
+  return typeof v === 'string' ? v : undefined
+}
+
 // ── MenuItemDto mapper ──────────────────────────────────────────────────────
 
 /** แปลง MenuItemDto[] จาก /menus/me เป็น NavItem tree */
 export function buildNavItemsFromDtos(dtos: MenuItemDto[]): NavItem[] {
-  const topMenus = [...dtos].filter((item) => isTopMenu(item.menuType)).sort(compareDtoOrder)
+  const topMenus = [...dtos].filter((item) => isTopMenu(pickMenuType(item))).sort(compareDtoOrder)
   return topMenus.map(mapDto)
 }
 
 function mapDto(dto: MenuItemDto): NavItem {
-  const sideMenus = [...dto.subMenus]
-    .filter((sub) => isSidebarMenu(sub.menuType))
-    .sort(compareDtoOrder)
-  const children: NavSubItem[] = sideMenus.map((sub) => ({
-    id: String(sub.id),
-    label: sub.label,
-    to: sub.path,
-    // leaf node (ไม่มี sub-submenu) → exact match
-    end: sub.subMenus.length === 0,
-  }))
+  const subs = getSubMenus(dto)
+  const sideMenus = [...subs].filter((sub) => isSidebarMenu(pickMenuType(sub))).sort(compareDtoOrder)
+  const children: NavSubItem[] = sideMenus.map((sub) => {
+    const subSubs = getSubMenus(sub)
+    const icon = pickIcon(sub)
+    return {
+      id: String(sub.id),
+      label: sub.label,
+      to: sub.path,
+      // leaf node (ไม่มี sub-submenu) → exact match
+      end: subSubs.length === 0,
+      ...(icon ? { icon } : {}),
+    }
+  })
+
+  const topIcon = pickIcon(dto)
 
   return {
     id: String(dto.id),
     label: dto.label,
     to: dto.path,
-    end: dto.subMenus.length === 0,
+    end: subs.length === 0,
+    ...(topIcon ? { icon: topIcon } : {}),
     ...(children.length ? { children } : {}),
   }
 }
 
 function isMenuItemDtoArray(value: unknown[]): value is MenuItemDto[] {
   const first = value[0] as Record<string, unknown>
-  const hasValidId = typeof first.id === 'string' || typeof first.id === 'number'
-  return hasValidId && typeof first.code === 'string' && Array.isArray(first.subMenus)
+  const hasValidId =
+    typeof first.id === 'string' ||
+    typeof first.id === 'number' ||
+    typeof first.Id === 'string' ||
+    typeof first.Id === 'number'
+  const code = first.code ?? first.Code
+  const subMenus = first.subMenus ?? first.SubMenus
+  return hasValidId && typeof code === 'string' && Array.isArray(subMenus)
 }
 
 function isTopMenu(menuType: string | null | undefined): boolean {
@@ -79,9 +117,9 @@ function isSidebarMenu(menuType: string | null | undefined): boolean {
 }
 
 function dtoSortValue(item: MenuItemDto): number {
-  if (typeof item.sortOrder === 'number') return item.sortOrder
-  if (typeof item.sort_order === 'number') return item.sort_order
-  return Number.MAX_SAFE_INTEGER
+  const r = asRecord(item)
+  const so = item.sortOrder ?? item.sort_order ?? r.SortOrder ?? r.sortOrder
+  return typeof so === 'number' ? so : Number.MAX_SAFE_INTEGER
 }
 
 function compareDtoOrder(a: MenuItemDto, b: MenuItemDto): number {

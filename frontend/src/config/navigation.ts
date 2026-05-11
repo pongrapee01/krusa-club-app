@@ -8,6 +8,8 @@ export type NavSubItem = {
   label: string
   to: string
   end?: boolean
+  /** คีย์ icon จาก API (เช่น layout-dashboard, Home) — แมปใน NavMenuIcon */
+  icon?: string | null
 }
 
 export type NavItem = {
@@ -15,19 +17,21 @@ export type NavItem = {
   label: string
   to: string
   end?: boolean
+  icon?: string | null
   children?: NavSubItem[]
 }
 
 export const mainNavItems: NavItem[] = [
-  { id: 'home', label: 'Home', to: '/', end: true },
+  { id: 'home', label: 'Home', to: '/', end: true, icon: 'home' },
   {
     id: 'guide',
     label: 'Guide',
     to: '/guide',
+    icon: 'book-open',
     children: [
-      { id: 'guide-manual', label: 'คู่มือ', to: '/guide', end: true },
-      { id: 'guide-qa', label: 'Q&A', to: '/guide/qa' },
+      { id: 'guide-manual', label: 'คู่มือ', to: '/guide', end: true, icon: 'file-text' },
+      { id: 'guide-qa', label: 'Q&A', to: '/guide/qa', icon: 'circle-help' },
     ],
   },
-  { id: 'login', label: 'Login', to: '/login', end: true },
+  { id: 'login', label: 'Login', to: '/login', end: true, icon: 'log-in' },
 ]

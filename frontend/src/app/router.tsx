@@ -8,6 +8,9 @@ import { GuideQAPage } from '@/pages/GuideQAPage'
 import { HomePage } from '@/pages/HomePage'
 import { NotFoundPage } from '@/pages/NotFoundPage'
 import { ClassroomPage } from '@/pages/ClassroomPage'
+import { ClassroomAttendancePage } from '@/pages/ClassroomAttendancePage'
+import { ClassroomHealthPage } from '@/pages/ClassroomHealthPage'
+import { ClassroomSavingPage } from '@/pages/ClassroomSavingPage'
 import { ConfigMasterPage } from '@/pages/ConfigMasterPage'
 import { ConfigPage } from '@/pages/ConfigPage'
 import { ConfigPermissionsPage } from '@/pages/ConfigPermissionsPage'
@@ -37,6 +40,9 @@ export const router = createBrowserRouter([
           },
           { path: 'dashboard', element: <DashboardPage /> },
           { path: 'classroom', element: <ClassroomPage /> },
+          { path: 'classroom/attendance', element: <ClassroomAttendancePage /> },
+          { path: 'classroom/health', element: <ClassroomHealthPage /> },
+          { path: 'classroom/saving', element: <ClassroomSavingPage /> },
           { path: 'schedule', element: <SchedulePage /> },
           { path: 'playground', element: <PlaygroundPage /> },
           { path: 'config', element: <ConfigPage /> },

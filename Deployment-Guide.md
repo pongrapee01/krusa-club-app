@@ -72,6 +72,14 @@ git push origin main
 4. เลือก repository `krusa-club` จาก GitHub
 5. คลิก **"Import"**
 
+> ถ้าใช้อีเมลเดียวกับ GitHub อยู่แล้ว: ให้เลือก **Continue with GitHub** ได้เลย ไม่ต้องสมัครแบบ email/password แยกอีกบัญชี
+
+#### กรณีหา repository ไม่เจอใน Vercel
+1. ในหน้า Import ให้กด **Adjust GitHub App Permissions**
+2. เข้า GitHub แล้วอนุญาตให้ Vercel เข้าถึง repo นี้ (`krusa-club`/`krusa-club-app`)
+3. กลับมาหน้า Vercel แล้วกด refresh รายการ repo
+4. ถ้ายังไม่เห็น ให้ disconnect/reconnect GitHub integration ใน Vercel 1 รอบ
+
 ---
 
 ### ขั้นตอนที่ 3 — ตั้งค่า Build Configuration

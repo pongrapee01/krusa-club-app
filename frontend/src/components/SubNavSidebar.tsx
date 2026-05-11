@@ -1,6 +1,8 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { NavLink } from 'react-router-dom'
 
+import { NavMenuIcon } from '@/components/NavMenuIcon'
+
 import { useAppLayout } from '@/hooks/useAppLayout'
 import { cn } from '@/lib/utils'
 
@@ -40,7 +42,10 @@ export function SubNavSidebar() {
             className={subLinkClass}
             onClick={() => setMobileSubNavOpen(false)}
           >
-            {item.label}
+            <span className="inline-flex items-center gap-2">
+              <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
+              <span>{item.label}</span>
+            </span>
           </NavLink>
         </li>
       ))}

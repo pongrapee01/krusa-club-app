@@ -35,7 +35,7 @@ Array ของ `MenuItemDto` (recursive) — ตรงกับ .NET model:
     "code": "dashboard",
     "label": "Dashboard",
     "path": "/dashboard",
-    "icon": null,
+    "icon": "chart-column-increasing",
     "subMenus": []
   },
   {
@@ -43,14 +43,14 @@ Array ของ `MenuItemDto` (recursive) — ตรงกับ .NET model:
     "code": "configuration",
     "label": "Configuration",
     "path": "/config",
-    "icon": null,
+    "icon": "settings",
     "subMenus": [
       {
         "id": 3,
         "code": "user-management",
         "label": "User Management",
         "path": "/config/users",
-        "icon": null,
+        "icon": "users",
         "subMenus": []
       },
       {
@@ -58,7 +58,7 @@ Array ของ `MenuItemDto` (recursive) — ตรงกับ .NET model:
         "code": "permission",
         "label": "Permission",
         "path": "/config/permission",
-        "icon": null,
+        "icon": "shield",
         "subMenus": []
       }
     ]
@@ -86,9 +86,17 @@ export type MenuItemDto = {
 | `id` (number) | `id` (string) | `String(dto.id)` |
 | `label` | `label` | ตรงกัน |
 | `path` | `to` | rename |
+| `icon` | `icon` | ส่งเป็น string slug (เช่น `layout-dashboard`, `Users`, `settings`) — แมปเป็น Lucide ใน `NavMenuIcon.tsx` |
 | `subMenus` | `children` | recursive map |
 | — | `end` | derive: `true` ถ้า leaf node (subMenus.length === 0) |
-| `code`, `icon` | — | ไม่ใช้ใน NavItem ตอนนี้ |
+| `code` | — | ไม่ใช้ใน UI ตอนนี้ (เก็บไว้สำหรับ analytics / key อื่นได้) |
+
+### ค่า `icon` ที่ frontend รองรับ
+
+- ใช้ **whitelist** ใน `frontend/src/components/NavMenuIcon.tsx` (เพื่อ bundle size)
+- รองรับรูปแบบ: **kebab-case** (`layout-dashboard`), **snake_case** (`layout_dashboard` → normalize เป็น kebab), หรือ **PascalCase** ของชื่อ Lucide (`LayoutDashboard`)
+- ถ้า API ส่งค่าที่ยังไม่มีใน whitelist → ไม่แสดง icon (ข้อความเมนูยังแสดงตามปกติ) — เพิ่ม mapping ใน `ICON_MAP` ได้เมื่อมีเมนูใหม่
+- ตัวอย่างค่าที่ใช้กับ Lucide ชุดปัจจุบัน: `gamepad-2`, `book-text`, `calendar-days`, `chart-column-increasing` (และรูปแบบ PascalCase เช่น `Gamepad2`, `BookText`, `CalendarDays`, `ChartColumnIncreasing`)
 
 ## 3) Response ที่ frontend รองรับ (ลำดับ priority)
 
