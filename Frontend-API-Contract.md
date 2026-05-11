@@ -158,3 +158,98 @@ type MenuRow = {
 - ถ้าเรียกไม่สำเร็จ → fallback ไป `mainNavItems` อัตโนมัติ
 - หลัง login/logout สำเร็จ → `invalidateQueries` เพื่อโหลดเมนูใหม่ (ผ่าน `useInvalidateNavMenus`)
 
+## 7) Classroom — เช็คชื่อ (รายคาบ + หน้าแถว)
+
+หน้า `/classroom/attendance` ใช้ `frontend/src/services/attendanceService.ts` + UI การ์ดใน `ClassroomAttendancePage` / `AttendanceStudentCard`
+
+### สองฟีเจอร์ (แยกบริบทชัดเจน)
+
+| ฟีเจอร์ | ผู้ใช้หลัก | ความหมาย |
+|---------|-----------|-----------|
+| **เช็คชื่อรายคาบเรียน** (`scope=period`) | ครูวิชา | ผูก**ตารางสอน** — แผ่นต่อคาบ/วิชา |
+| **เช็คชื่อหน้าแถว** (`scope=homeroom`) | ครูประจำชั้น | รายชื่อ**ห้องเรียน** — ไม่ผูกวิชาแต่ละคาบ (ก่อนเข้าคาบ / รอบโฮมรูมตามกำหนดโรงเรียน) |
+
+### UX ที่ frontend ออกแบบ
+
+1. **เลือกฟีเจอร์ก่อน** — การ์ดสลับบน: รายคาบ vs หน้าแถว
+2. **Smart detect (รายคาบ)** — `GET` **ไม่มี query** → backend จับคู่**คาบปัจจุบัน**จากเวลา + ตารางสอน + JWT
+3. **หน้าแถววันนี้** — `GET ?scope=homeroom` (ไม่ส่ง `at`) → แผ่นหน้าแถวของวันปัจจุบัน
+4. **Bulk upsert** — ค่าเริ่มต้น `present` แตะการ์ดเฉพาะข้อยกเว้น แล้ว `PUT` ครั้งเดียว
+5. **แก้อดีต** — ใช้ **datetime picker** บนหน้า → ส่ง `at` (วัน+เวลา) ให้ backend ชี้ไปที่คาบหรือรอบหน้าแถวที่ถูกต้อง
+6. **สถานะเชิงลึก** — รวม `cut_class` (โดดเรียน) สำหรับรายงานกิจการนักเรียน
+
+### Endpoint เดียว (แนะนำ)
+
+| Method | Path | Query | คำอธิบาย |
+|--------|------|-------|----------|
+| `GET` | `/classroom/attendance/roll-call` | *(ไม่มี)* | **รายคาบ — Smart detect** คาบปัจจุบัน |
+| `GET` | `/classroom/attendance/roll-call` | `scope=homeroom` | **หน้าแถว — วันนี้** |
+| `GET` | `/classroom/attendance/roll-call` | `at=YYYY-MM-DDTHH:mm` และ `scope=period` | **รายคาบ — ย้อนหลัง** ตามวัน-เวลา (ชี้คาบในวันนั้น) |
+| `GET` | `/classroom/attendance/roll-call` | `at=...` และ `scope=homeroom` | **หน้าแถว — ย้อนหลัง** ตามวัน-เวลา (ชี้รอบหน้าแถว) |
+| `PUT` | `/classroom/attendance/roll-call` | — | บันทึกทั้งแผ่น (body ด้านล่าง) |
+
+รูปแบบ `at` ให้สอดคล้องกับ `<input type="datetime-local" />` (local time โรงเรียน ไม่มี timezone ในสตริง) — backend แปลงเป็น timezone ของโรงเรียนตามนโยบายของระบบ
+
+**เลิกใช้ใน UI แล้ว:** `?date=YYYY-MM-DD` อย่างเดียว (ไม่มีเวลา) — ถ้า backend รองรับอยู่แล้วอาจเก็บไว้เป็น legacy แต่ frontend ปัจจุบันส่ง `at` + `scope` เป็นหลัก
+
+### Response `GET` (ตัวอย่าง JSON)
+
+รองรับ **camelCase / PascalCase** และห่อ `{ "data": ... }` ได้
+
+```json
+{
+  "sessionId": "550e8400-e29b-41d4-a716-446655440000",
+  "classLabel": "ม.3/1",
+  "sessionDate": "2026-05-10",
+  "attendanceScope": "period",
+  "smartMatched": true,
+  "periodLabel": "คาบ 3",
+  "subjectName": "คณิตศาสตร์",
+  "periodStart": "10:20",
+  "periodEnd": "11:10",
+  "students": [
+    {
+      "studentId": "stu-001",
+      "displayName": "สมชาย ใจดี",
+      "seatNumber": "4",
+      "avatarUrl": "https://example.com/avatars/stu-001.jpg",
+      "status": "present",
+      "note": null
+    }
+  ]
+}
+```
+
+- `attendanceScope`: `"period"` | `"homeroom"` (optional — ถ้าไม่ส่ง UI ใช้ค่าจาก request)
+- ฟิลด์บริบทคาบ / เวลา เป็น **optional** โดยเฉพาะแผ่นหน้าแถวที่อาจไม่มี `subjectName`
+
+### Request `PUT` (body)
+
+```json
+{
+  "sessionId": "550e8400-e29b-41d4-a716-446655440000",
+  "sessionDate": "2026-05-10",
+  "students": [
+    { "studentId": "stu-001", "status": "present", "note": null },
+    { "studentId": "stu-002", "status": "cut_class", "note": null }
+  ]
+}
+```
+
+### ค่า `status`
+
+| ค่า | ความหมาย |
+|-----|-----------|
+| `present` | มาเรียน (ค่าเริ่มต้น bulk) |
+| `absent` | ขาด |
+| `late` | สาย |
+| `leave` | ลา (อนุมัติ) |
+| `cut_class` | โดดเรียน (เช้ามา บ่ายหาย — รายงานกิจการนักเรียน) |
+| `unknown` | ยังไม่ระบุ (จาก API เท่านั้น; ค่าว่างจะถูกมองเป็น `present`) |
+
+ค่า `excused` จากระบบเก่า → frontend แมปเป็น `leave`
+
+### การวนสถานะบนการ์ด (แตะการ์ด)
+
+ลำดับวน: `present` → `absent` → `late` → `leave` → `cut_class` → `present`
+
