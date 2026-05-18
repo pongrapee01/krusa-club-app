@@ -8,7 +8,7 @@ export function AppFooter() {
           © {year} Krusa Club. All rights reserved.
         </p>
         <p className="text-xs text-white/35">
-          Built with React · Supabase · ASP.NET Core
+          "ถึงเป้าหมายยังอยู่อีกไกล เดินไปพักไป...ยังไงก็ถึง"
         </p>
       </div>
     </footer>

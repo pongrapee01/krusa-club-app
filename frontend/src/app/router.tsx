@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 
 import { LoginModalLayout } from '@/layouts/LoginModalLayout'
 import { RootLayout } from '@/layouts/RootLayout'
@@ -14,13 +14,17 @@ import { ClassroomSavingPage } from '@/pages/ClassroomSavingPage'
 import { ConfigMasterPage } from '@/pages/ConfigMasterPage'
 import { ConfigPage } from '@/pages/ConfigPage'
 import { ConfigPermissionsPage } from '@/pages/ConfigPermissionsPage'
-import { ConfigUsersPage } from '@/pages/ConfigUsersPage'
+import { UserManagementLayout } from '@/features/user-management/UserManagementLayout'
+import { LoginAccountsPage } from '@/features/user-management/pages/LoginAccountsPage'
+import { RolesPermissionsPage } from '@/features/user-management/pages/RolesPermissionsPage'
+import { StudentsPage } from '@/features/user-management/pages/StudentsPage'
+import { TeachersPage } from '@/features/user-management/pages/TeachersPage'
 import { DashboardPage } from '@/pages/DashboardPage'
 import { PlaygroundPage } from '@/pages/PlaygroundPage'
 import { SchedulePage } from '@/pages/SchedulePage'
 import { RegisterPage } from '@/pages/RegisterPage'
 
-/** เพิ่ม path ใหม่: ใส่ route ที่นี่ และเพิ่มรายการใน `src/config/navigation.ts` ให้เมนูตรงกัน */
+/** เพิ่ม path ใหม่: ใส่ route ที่นี่ — เมนูหลัก/ย่อยซ้ายจาก API ดู `src/config/navigation.ts` และ `NavItemsProvider` */
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -47,7 +51,17 @@ export const router = createBrowserRouter([
           { path: 'playground', element: <PlaygroundPage /> },
           { path: 'config', element: <ConfigPage /> },
           { path: 'config/master', element: <ConfigMasterPage /> },
-          { path: 'config/users', element: <ConfigUsersPage /> },
+          {
+            path: 'config/users',
+            element: <UserManagementLayout />,
+            children: [
+              { index: true, element: <Navigate to="students" replace /> },
+              { path: 'students', element: <StudentsPage /> },
+              { path: 'teachers', element: <TeachersPage /> },
+              { path: 'accounts', element: <LoginAccountsPage /> },
+              { path: 'roles', element: <RolesPermissionsPage /> },
+            ],
+          },
           { path: 'config/permissions', element: <ConfigPermissionsPage /> },
           { path: 'register', element: <RegisterPage /> },
           { path: 'login', element: <HomePage /> },

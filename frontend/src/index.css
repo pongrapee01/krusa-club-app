@@ -44,6 +44,14 @@ body {
   min-height: 100%;
 }
 
+/**
+ * พื้นหลังคอลัมน์เนื้อหา (main) — มืดลงเล็กน้อยจากพื้นหลัง body โดยเลเยอร์ดำ ~5% opacity
+ * ไม่กระทบ header / sidebar / footer
+ */
+.app-main-content {
+  background-color: rgb(0 0 0 / 0.05);
+}
+
 /* ── Loading: จรวดพุ่งขึ้น ───────────────────────────────────────────────── */
 .edtech-loader-float {
   filter: drop-shadow(0 12px 28px rgb(0 0 0 / 0.45)) drop-shadow(0 6px 20px rgb(249 115 22 / 0.2));

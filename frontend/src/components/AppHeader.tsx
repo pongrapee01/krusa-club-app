@@ -39,6 +39,9 @@ const navLinkClassMobile = ({ isActive }: { isActive: boolean }) =>
 
 const LOGIN_PATH = '/login'
 
+/** เมนูที่ซ่อนจาก topbar เมื่อยังไม่ล็อกอิน (landing ใช้โลโก้ / route อื่นแทน) */
+const TOPBAR_GUEST_HIDDEN_IDS = new Set(['home', 'guide'])
+
 function emailInitial(email: string) {
   const local = email.trim().split('@')[0] ?? ''
   const ch = local[0] ?? email.trim()[0]
@@ -101,6 +104,10 @@ export function AppHeader() {
   })
   const isAuthenticated = Boolean(userId)
 
+  const centerNavItemsForHeader = centerNavItems.filter(
+    (item) => isAuthenticated || !TOPBAR_GUEST_HIDDEN_IDS.has(item.id),
+  )
+
   const loginLabel =
     loginNavItem && authMeQuery.isSuccess
       ? extractEmailFromAuthMe(authMeQuery.data) ?? loginNavItem.label
@@ -132,9 +139,11 @@ export function AppHeader() {
     })
   }
 
-  const mobileDrawerItems = isAuthenticated
-    ? navItems.filter((item) => item.to !== LOGIN_PATH)
-    : navItems
+  const mobileDrawerItems = navItems.filter((item) => {
+    if (item.to === LOGIN_PATH) return !isAuthenticated
+    if (!isAuthenticated && TOPBAR_GUEST_HIDDEN_IDS.has(item.id)) return false
+    return true
+  })
 
   useEffect(() => {
     if (!mobileOpen && !accountMenuOpen) return
@@ -192,7 +201,7 @@ export function AppHeader() {
           className="hidden min-w-0 flex-1 items-center justify-center gap-2 text-sm md:flex"
           aria-label="เมนูหลัก"
         >
-          {centerNavItems.map((item) => (
+          {centerNavItemsForHeader.map((item) => (
             <NavLink
               key={item.id}
               to={item.to}

@@ -33,5 +33,6 @@ export const mainNavItems: NavItem[] = [
       { id: 'guide-qa', label: 'Q&A', to: '/guide/qa', icon: 'circle-help' },
     ],
   },
+  /** User Management (/config/users/*) ไม่ใส่ที่นี่ — นำทางด้วยแท็บภายในหน้าเท่านั้น ไม่ใช้เมนูย่อยซ้าย */
   { id: 'login', label: 'Login', to: '/login', end: true, icon: 'log-in' },
 ]

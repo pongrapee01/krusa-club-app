@@ -96,11 +96,13 @@ export function ClassroomAttendancePage() {
     enabled: enabled && (viewMode !== 'history' || historyAtValid),
   })
 
+  /* eslint-disable react-hooks/set-state-in-effect -- รีเซ็ต draft ท้องถิ่นเมื่อขอบเขตเซสชัน/ sessionId จากเซิร์ฟเวอร์เปลี่ยน */
   useEffect(() => {
     setOverrides({})
     setSaveOk(null)
     setSaveErr(null)
   }, [viewMode, rollScope, historyAt, query.data?.sessionId])
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const session = query.data
 
@@ -110,8 +112,9 @@ export function ClassroomAttendancePage() {
       const cur = (prev[studentId] ?? serverStatus) as AttendanceStatus
       const next = nextAttendanceStatus(cur)
       if (next === serverStatus) {
-        const { [studentId]: _, ...rest } = prev
-        return rest
+        const nextOverrides = { ...prev }
+        delete nextOverrides[studentId]
+        return nextOverrides
       }
       return { ...prev, [studentId]: next }
     })

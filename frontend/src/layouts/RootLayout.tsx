@@ -18,7 +18,7 @@ function LayoutShell() {
       <div className="flex min-h-0 min-w-0 flex-1">
         <SubNavSidebar />
 
-        <main className="min-h-0 min-w-0 flex-1 overflow-y-auto px-3 py-5 sm:px-5 sm:py-8">
+        <main className="app-main-content min-h-0 min-w-0 flex-1 overflow-y-auto px-3 py-5 sm:px-5 sm:py-8">
           <div className="mx-auto w-full max-w-screen-2xl">
             <Outlet />
           </div>
