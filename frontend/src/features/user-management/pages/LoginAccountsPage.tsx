@@ -269,7 +269,7 @@ export function LoginAccountsPage() {
         <button
           type="button"
           onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-orange-600 px-5 text-sm font-semibold text-white shadow-md shadow-orange-950/35 ring-1 ring-orange-400/45 transition hover:bg-orange-500"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-green-500/50 bg-green-600 px-5 text-sm font-semibold text-white shadow-md shadow-green-950/40 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
         >
           <Plus className="size-4" aria-hidden />
           สร้างบัญชีผู้ใช้
@@ -332,7 +332,7 @@ export function LoginAccountsPage() {
               <button
                 type="button"
                 onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
-                className="inline-flex h-10 items-center justify-center rounded-full bg-orange-600 px-4 text-sm font-semibold text-white ring-1 ring-orange-400/45 hover:bg-orange-500"
+                className="inline-flex h-10 items-center justify-center rounded-full border border-green-500/50 bg-green-600 px-4 text-sm font-semibold text-white shadow-md shadow-green-950/35 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700"
               >
                 สร้างบัญชีผู้ใช้
               </button>

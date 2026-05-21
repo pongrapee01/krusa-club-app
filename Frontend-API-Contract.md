@@ -253,3 +253,26 @@ type MenuRow = {
 
 ลำดับวน: `present` → `absent` → `late` → `leave` → `cut_class` → `present`
 
+
+
+### หัวข้อ Database (supabase) ที่ create table เรียบร้อยแล้ว
+1. Master data
+ 1.1 attendance_status (สถานะ ใช้กับการ เช็คชื่อ)
+ 1.2 classes (ห้องเรียน เช่น ป.4/1)
+ 1.3 menus 
+ 1.4 periods (คาบเรียน)
+ 1.5 roles 
+ 1.6 semesters
+ 1.7 subjects (รายวิชา)
+ 1.8 system_status (สถานะ ใช้กับ table เช่น row นี้ active/inactive/delete)
+ 1.9 titles (คำนำหน้าชื่อ)
+ 1.10 user_profiles
+
+2. Transaction
+ 2.1 attendance_logs
+
+3. Mapping/Relational
+ 3.1 class_enrollments
+ 3.2 role_menus
+ 3.3 teaching_schedules
+ 3.4 user_roles
