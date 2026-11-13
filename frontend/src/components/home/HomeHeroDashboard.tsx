@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, LayoutDashboard } from 'lucide-react'
 import { useCallback, useEffect, useId, useRef, useState, type ReactNode } from 'react'
 
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 
 type HeroSlide = {
@@ -42,14 +43,15 @@ function StatCard({
   return (
     <div
       className={cn(
-        'rounded-2xl border border-white/15 bg-slate-900/55 p-3 shadow-inner ring-1 backdrop-blur-sm sm:p-4',
+        ed.surfaceInner,
+        'p-3 ring-1 sm:p-4',
         accentRing,
       )}
     >
       <div className={cn('mb-2 h-1 w-10 rounded-full', accentBar)} aria-hidden />
-      <p className="text-[11px] font-medium uppercase tracking-wide text-white/55 sm:text-xs">{label}</p>
-      <p className="mt-1 text-2xl font-semibold tabular-nums text-white sm:text-3xl">{value}</p>
-      <p className="mt-1 text-xs text-white/65">{hint}</p>
+      <p className={cn('text-[11px] sm:text-xs', ed.labelCaps)}>{label}</p>
+      <p className={cn('mt-1 text-2xl font-semibold tabular-nums sm:text-3xl', ed.text)}>{value}</p>
+      <p className={cn('mt-1 text-xs', ed.textSub)}>{hint}</p>
     </div>
   )
 }
@@ -72,10 +74,10 @@ function SlideSchedulePanel() {
   ] as const
 
   return (
-    <div className="space-y-2 rounded-2xl border border-white/15 bg-slate-900/50 p-3 ring-1 ring-white/10 sm:p-4">
-      <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-2">
-        <p className="text-sm font-semibold text-white">งานที่ใกล้ครบกำหนด</p>
-        <span className="rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-medium text-white/75">
+    <div className={cn(ed.surfaceInner, 'space-y-2 p-3 sm:p-4')}>
+      <div className="flex items-center justify-between gap-2 border-b border-slate-100 pb-2">
+        <p className={cn('text-sm font-semibold', ed.text)}>งานที่ใกล้ครบกำหนด</p>
+        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
           อัปเดตล่าสุด
         </span>
       </div>
@@ -83,14 +85,14 @@ function SlideSchedulePanel() {
         {rows.map((r) => (
           <li
             key={r.subject}
-            className="flex flex-wrap items-center gap-2 rounded-xl border border-white/10 bg-slate-950/40 px-3 py-2.5"
+            className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2.5"
           >
             <span className={cn('size-2 shrink-0 rounded-full', r.tone)} aria-hidden />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-medium text-white">{r.subject}</p>
-              <p className="truncate text-xs text-white/65">{r.task}</p>
+              <p className={cn('truncate text-sm font-medium', ed.text)}>{r.subject}</p>
+              <p className={cn('truncate text-xs', ed.textSub)}>{r.task}</p>
             </div>
-            <span className="shrink-0 rounded-lg bg-white/10 px-2 py-1 text-[11px] font-semibold text-white/85">
+            <span className="shrink-0 rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-700">
               {r.due}
             </span>
           </li>
@@ -109,34 +111,34 @@ function SlideProgressPanel() {
 
   return (
     <div className="grid gap-3 lg:grid-cols-2">
-      <div className="rounded-2xl border border-white/15 bg-slate-900/50 p-4 ring-1 ring-violet-400/25">
-        <p className="text-sm font-semibold text-white">ความสม่ำเสมอ</p>
-        <p className="mt-1 text-xs text-white/65">สะท้อนการเข้าเรียนและส่งงาน 7 วันล่าสุด</p>
+      <div className={cn(ed.surfaceInner, 'p-4 ring-1 ring-violet-200/60')}>
+        <p className={cn('text-sm font-semibold', ed.text)}>ความสม่ำเสมอ</p>
+        <p className={cn('mt-1 text-xs', ed.textSub)}>สะท้อนการเข้าเรียนและส่งงาน 7 วันล่าสุด</p>
         <div
-          className="relative mx-auto mt-5 grid size-36 place-items-center rounded-full border border-white/15 bg-slate-950/50 sm:size-40"
+          className="relative mx-auto mt-5 grid size-36 place-items-center rounded-full border border-slate-200 bg-slate-50 sm:size-40"
           style={{
             background:
-              'conic-gradient(rgb(56 189 248 / 0.95) 0% 72%, rgb(255 255 255 / 0.08) 72% 100%)',
+              'conic-gradient(rgb(56 189 248 / 0.95) 0% 72%, rgb(226 232 240) 72% 100%)',
           }}
         >
-          <div className="grid size-[76%] place-items-center rounded-full border border-white/10 bg-slate-950/80 shadow-inner sm:size-[78%]">
+          <div className="grid size-[76%] place-items-center rounded-full border border-slate-100 bg-white shadow-sm sm:size-[78%]">
             <div className="text-center">
-              <p className="text-3xl font-semibold tabular-nums text-white sm:text-4xl">72%</p>
-              <p className="text-[11px] text-white/60">เฉลี่ยรายสัปดาห์</p>
+              <p className={cn('text-3xl font-semibold tabular-nums sm:text-4xl', ed.text)}>72%</p>
+              <p className={cn('text-[11px]', ed.textMuted)}>เฉลี่ยรายสัปดาห์</p>
             </div>
           </div>
         </div>
       </div>
-      <div className="space-y-3 rounded-2xl border border-white/15 bg-slate-900/50 p-4 ring-1 ring-white/10">
-        <p className="text-sm font-semibold text-white">ความคืบหน้าตามหัวข้อ</p>
+      <div className={cn(ed.surfaceInner, 'space-y-3 p-4')}>
+        <p className={cn('text-sm font-semibold', ed.text)}>ความคืบหน้าตามหัวข้อ</p>
         <ul className="space-y-3">
           {bars.map((b) => (
             <li key={b.label}>
-              <div className="flex items-center justify-between gap-2 text-xs text-white/75">
+              <div className={cn('flex items-center justify-between gap-2 text-xs', ed.textSub)}>
                 <span>{b.label}</span>
-                <span className="tabular-nums text-white/90">{b.pct}%</span>
+                <span className={cn('tabular-nums', ed.text)}>{b.pct}%</span>
               </div>
-              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-white/10">
+              <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-slate-100">
                 <div
                   className="h-full rounded-full bg-gradient-to-r from-sky-400 to-emerald-400"
                   style={{ width: `${b.pct}%` }}
@@ -206,7 +208,10 @@ export function HomeHeroDashboard() {
 
   return (
     <section
-      className="relative overflow-hidden rounded-2xl border border-white/20 bg-slate-950/55 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.55)] ring-1 ring-white/10 backdrop-blur-md sm:rounded-3xl"
+      className={cn(
+        ed.surface,
+        'relative overflow-hidden sm:rounded-3xl',
+      )}
       aria-labelledby={`${carouselId}-heading`}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
@@ -224,25 +229,25 @@ export function HomeHeroDashboard() {
         go(dx < 0 ? 1 : -1)
       }}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(56,189,248,0.14),transparent_55%),radial-gradient(ellipse_at_90%_30%,rgba(251,146,60,0.12),transparent_50%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(56,189,248,0.12),transparent_55%),radial-gradient(ellipse_at_90%_30%,rgba(251,146,60,0.1),transparent_50%)]" />
 
       <div className="relative p-4 sm:p-6 lg:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-white/15 bg-white/10 shadow-inner ring-1 ring-white/10 sm:size-12">
-              <LayoutDashboard className="size-5 text-sky-200 sm:size-6" aria-hidden />
+            <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-slate-50 shadow-sm ring-1 ring-slate-100 sm:size-12">
+              <LayoutDashboard className="size-5 text-sky-600 sm:size-6" aria-hidden />
             </div>
             <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-sky-200/90 sm:text-xs">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-sky-700 sm:text-xs">
                 Krusa Club — Landing
               </p>
               <h2
                 id={`${carouselId}-heading`}
-                className="mt-0.5 text-lg font-semibold tracking-tight text-white sm:text-xl"
+                className={cn('mt-0.5 sm:text-xl', ed.sectionTitle)}
               >
                 แดชบอร์ดสไตล์สไลด์
               </h2>
-              <p className="mt-1 max-w-prose text-sm leading-relaxed text-white/75">
+              <p className={cn('mt-1 max-w-prose', ed.sectionLead)}>
                 สำรวจมุมมองตัวอย่างของระบบจัดการชั้นเรียน — สลับสไลด์เพื่อดูบริบทที่ต่างกัน
               </p>
             </div>
@@ -251,7 +256,7 @@ export function HomeHeroDashboard() {
           <div className="flex items-center gap-2 self-center sm:self-start">
             <button
               type="button"
-              className="inline-flex size-10 items-center justify-center rounded-xl border border-white/20 bg-slate-900/60 text-white shadow-inner ring-1 ring-white/10 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+              className={cn(ed.btnSecondary, 'size-10 min-h-0 px-0')}
               aria-label="สไลด์ก่อนหน้า"
               onClick={() => go(-1)}
             >
@@ -259,7 +264,7 @@ export function HomeHeroDashboard() {
             </button>
             <button
               type="button"
-              className="inline-flex size-10 items-center justify-center rounded-xl border border-white/20 bg-slate-900/60 text-white shadow-inner ring-1 ring-white/10 transition-colors hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400"
+              className={cn(ed.btnSecondary, 'size-10 min-h-0 px-0')}
               aria-label="สไลด์ถัดไป"
               onClick={() => go(1)}
             >
@@ -268,7 +273,7 @@ export function HomeHeroDashboard() {
           </div>
         </div>
 
-        <div className="relative mt-6 overflow-hidden rounded-2xl border border-white/12 bg-slate-900/35 ring-1 ring-white/10">
+        <div className={cn('relative mt-6 overflow-hidden', ed.surfaceInner)}>
           <div
             className={cn('flex', !reduceMotion && 'transition-transform duration-500 ease-out')}
             style={{ transform: `translate3d(-${index * 100}%, 0, 0)` }}
@@ -280,13 +285,13 @@ export function HomeHeroDashboard() {
                 className="min-w-full shrink-0 px-4 py-5 sm:px-6 sm:py-6"
                 aria-hidden={i !== index}
               >
-                <p className="text-[11px] font-semibold uppercase tracking-wider text-orange-300/95 sm:text-xs">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-orange-600 sm:text-xs">
                   {slide.eyebrow}
                 </p>
-                <h3 className="mt-2 text-xl font-semibold tracking-tight text-white sm:text-2xl">
+                <h3 className={cn('mt-2 text-xl sm:text-2xl', ed.sectionTitle)}>
                   {slide.title}
                 </h3>
-                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/78">{slide.description}</p>
+                <p className={cn('mt-2 max-w-2xl', ed.sectionLead)}>{slide.description}</p>
                 <div className="mt-5">{slide.panel}</div>
               </div>
             ))}
@@ -309,8 +314,8 @@ export function HomeHeroDashboard() {
                 className={cn(
                   'rounded-full px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400',
                   i === index
-                    ? 'bg-sky-500 text-white shadow-md shadow-sky-950/40'
-                    : 'bg-white/10 text-white/80 hover:bg-white/15',
+                    ? 'bg-sky-500 text-white shadow-md shadow-sky-600/25'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
                 )}
                 onClick={() => setIndex(i)}
               >
@@ -318,7 +323,7 @@ export function HomeHeroDashboard() {
               </button>
             ))}
           </div>
-          <p className="text-center text-[11px] text-white/50 sm:text-right">
+          <p className={cn('text-center text-[11px] sm:text-right', ed.textMuted)}>
             {reduceMotion ? 'โหมดลดการเคลื่อนไหว — ไม่เลื่อนอัตโนมัติ' : paused ? 'หยุดชั่วคราวขณะชี้เมาส์' : 'เลื่อนอัตโนมัติทุก 7 วินาที'}
           </p>
         </div>

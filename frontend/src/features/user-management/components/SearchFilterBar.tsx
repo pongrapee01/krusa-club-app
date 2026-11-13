@@ -1,14 +1,16 @@
 import { Search } from 'lucide-react'
 import type { ReactNode } from 'react'
 
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 
 type SearchFilterBarProps = {
   searchPlaceholder: string
   searchValue: string
   onSearchChange: (v: string) => void
-  /** ช่อง filter เพิ่มเติม เช่น select ระดับชั้น */
   filters?: ReactNode
+  /** ปุ่ม action ทางขวา เช่น เพิ่มรายการ — อยู่บรรทัดเดียวกับช่องค้นหา */
+  actions?: ReactNode
   className?: string
 }
 
@@ -17,33 +19,34 @@ export function SearchFilterBar({
   searchValue,
   onSearchChange,
   filters,
+  actions,
   className,
 }: SearchFilterBarProps) {
   return (
     <div
       className={cn(
-        'flex flex-col gap-3 rounded-2xl border border-white/10 bg-slate-950/35 p-3 shadow-inner shadow-black/20 backdrop-blur-sm lg:flex-row lg:items-center',
+        'flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)] lg:flex-row lg:items-center lg:gap-3',
         className,
       )}
     >
       <label className="relative min-w-0 flex-1">
         <span className="sr-only">ค้นหา</span>
         <Search
-          className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-white/45"
+          className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400"
           aria-hidden
         />
         <input
           value={searchValue}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder={searchPlaceholder}
-          className={cn(
-            'h-11 w-full rounded-xl border border-white/15 bg-slate-950/50 pl-10 pr-3 text-sm text-white placeholder:text-white/40',
-            'focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35',
-          )}
+          className={cn(ed.input, 'pl-10')}
         />
       </label>
-      {filters ? (
-        <div className="flex flex-wrap items-center gap-2 lg:shrink-0">{filters}</div>
+      {filters || actions ? (
+        <div className="flex w-full flex-wrap items-center justify-end gap-3 lg:ml-auto lg:w-auto lg:shrink-0">
+          {filters}
+          {actions}
+        </div>
       ) : null}
     </div>
   )

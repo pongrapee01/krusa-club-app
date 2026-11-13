@@ -11,21 +11,18 @@ const tabs = [
 
 const tabClass = ({ isActive }: { isActive: boolean }) =>
   cn(
-    'inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl px-4 text-sm font-medium transition-colors',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950',
+    'inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl px-5 text-sm font-medium transition-colors',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40 focus-visible:ring-offset-2',
     isActive
-      ? 'bg-orange-600 text-white shadow-sm ring-1 ring-orange-400/50'
-      : 'text-white/85 ring-1 ring-white/15 hover:bg-white/10 hover:text-white',
+      ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/15 hover:bg-blue-500'
+      : 'text-slate-600 hover:bg-blue-50 hover:text-slate-900',
   )
 
-/**
- * เมนูย่อย User Management อยู่ในเนื้อหาหน้าเท่านั้น — ไม่ใช้ SubNavSidebar
- */
 export function UserManagementInPageNav() {
   return (
     <nav
       aria-label="User management sections"
-      className="flex flex-wrap gap-2 rounded-2xl border border-white/10 bg-slate-950/40 p-2 shadow-inner shadow-black/20"
+      className="flex flex-wrap gap-2 rounded-2xl border border-slate-200 bg-white p-2 shadow-sm"
     >
       {tabs.map((tab) => (
         <NavLink key={tab.to} to={tab.to} end={tab.end} className={tabClass}>

@@ -11,10 +11,10 @@ function EdTechLoadingPanel({ label }: { label: string }) {
         <EdTechRocketSpinner />
       </div>
       <div className="space-y-1.5 text-center">
-        <p className="max-w-[min(90vw,22rem)] text-base font-semibold tracking-tight text-white sm:text-lg">
+        <p className="max-w-[min(90vw,22rem)] text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
           {label}
         </p>
-        <p className="text-xs font-medium text-amber-100/55 sm:text-sm">กรุณารอสักครู่</p>
+        <p className="text-xs font-medium text-slate-500 sm:text-sm">กรุณารอสักครู่</p>
       </div>
     </div>
   )
@@ -102,7 +102,7 @@ export function GlobalLoadingIndicator() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/72 backdrop-blur-md"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-white/75 backdrop-blur-md"
       role="status"
       aria-live="polite"
       aria-busy="true"

@@ -1,6 +1,7 @@
-import { Plus, Users } from 'lucide-react'
+import { Users } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
+import { AddItemButton } from '@/components/AddItemButton'
 import { useUserManagementAudit } from '@/features/user-management/audit/useUserManagementAudit'
 import { ConfirmDialog } from '@/features/user-management/components/ConfirmDialog'
 import { EmptyState } from '@/features/user-management/components/EmptyState'
@@ -10,6 +11,8 @@ import { StatusBadge } from '@/features/user-management/components/StatusBadge'
 import { UserFormModal } from '@/features/user-management/components/UserFormModal'
 import { UserTable, type UserTableColumn } from '@/features/user-management/components/UserTable'
 import { paginate } from '@/features/user-management/lib/paginate'
+import { ed } from '@/lib/edtech-ui'
+import { cn } from '@/lib/utils'
 import { mockTeachers } from '@/features/user-management/mock/teachers'
 import type { TeacherFormValues, TeacherRow, TeacherSubjectGroup } from '@/features/user-management/types'
 
@@ -106,11 +109,11 @@ export function TeachersPage() {
 
   const columns: UserTableColumn<TeacherRow>[] = [
     { id: 'tid', header: 'Teacher ID', cell: (r) => <span className="font-mono text-xs">{r.teacherId}</span> },
-    { id: 'name', header: 'ชื่อ-นามสกุล', cell: (r) => <span className="font-medium text-white">{r.fullName}</span> },
-    { id: 'sg', header: 'กลุ่มสาระ', cell: (r) => <span className="max-w-[10rem] text-white/90">{r.subjectGroup}</span> },
+    { id: 'name', header: 'ชื่อ-นามสกุล', cell: (r) => <span className="font-medium text-slate-900">{r.fullName}</span> },
+    { id: 'sg', header: 'กลุ่มสาระ', cell: (r) => <span className="max-w-[10rem] text-slate-700">{r.subjectGroup}</span> },
     { id: 'pos', header: 'ตำแหน่ง', cell: (r) => r.position },
     { id: 'phone', header: 'เบอร์โทร', cell: (r) => <span className="font-mono text-xs">{r.phone}</span> },
-    { id: 'email', header: 'Email', cell: (r) => <span className="text-xs text-sky-200/90">{r.email}</span> },
+    { id: 'email', header: 'Email', cell: (r) => <span className="text-xs text-blue-600">{r.email}</span> },
     { id: 'status', header: 'สถานะ', cell: (r) => <StatusBadge status={r.status} /> },
     {
       id: 'actions',
@@ -120,14 +123,14 @@ export function TeachersPage() {
         <div className="flex flex-wrap gap-1">
           <button
             type="button"
-            className="rounded-lg px-2 py-1 text-xs font-medium text-sky-200 ring-1 ring-sky-400/35 hover:bg-sky-500/15"
+            className={ed.actionView}
             onClick={() => setModal({ kind: 'form', mode: 'view', row: r })}
           >
             View
           </button>
           <button
             type="button"
-            className="rounded-lg px-2 py-1 text-xs font-medium text-white ring-1 ring-white/20 hover:bg-white/10"
+            className={ed.actionEdit}
             onClick={() => setModal({ kind: 'form', mode: 'edit', row: r })}
           >
             Edit
@@ -135,7 +138,7 @@ export function TeachersPage() {
           <button
             type="button"
             disabled={r.status === 'inactive'}
-            className="rounded-lg px-2 py-1 text-xs font-medium text-rose-200 ring-1 ring-rose-400/35 hover:bg-rose-500/15 disabled:cursor-not-allowed disabled:opacity-40"
+            className={ed.actionDanger}
             onClick={() => setConfirmDisable(r)}
           >
             Disable
@@ -146,22 +149,12 @@ export function TeachersPage() {
   ]
 
   return (
-    <section className="space-y-5">
-      <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Teachers</h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-            จัดการโปรไฟล์ครูในโรงเรียน — แยกจากบัญชี Login สำหรับเข้าระบบ
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-green-500/50 bg-green-600 px-5 text-sm font-semibold text-white shadow-md shadow-green-950/40 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-        >
-          <Plus className="size-4" aria-hidden />
-          เพิ่มครู
-        </button>
+    <section className="space-y-6">
+      <header className="space-y-2">
+        <h1 className={ed.pageTitle}>Teachers</h1>
+        <p className={ed.pageLead}>
+          จัดการโปรไฟล์ครูในโรงเรียน — แยกจากบัญชี Login สำหรับเข้าระบบ
+        </p>
       </header>
 
       <SearchFilterBar
@@ -171,6 +164,12 @@ export function TeachersPage() {
           setSearch(v)
           setPage(1)
         }}
+        actions={
+          <AddItemButton
+            label="เพิ่มครู"
+            onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
+          />
+        }
         filters={
           <>
             <select
@@ -179,7 +178,7 @@ export function TeachersPage() {
                 setSubjectFilter(e.target.value)
                 setPage(1)
               }}
-              className="h-11 min-w-[10rem] max-w-full rounded-xl border border-white/15 bg-slate-950/60 px-3 text-sm text-white focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35"
+              className={cn(ed.select, 'min-w-[10rem] max-w-full')}
             >
               <option value="all">ทุกกลุ่มสาระ</option>
               {subjectOptions.map((s) => (
@@ -194,7 +193,7 @@ export function TeachersPage() {
                 setStatusFilter(e.target.value)
                 setPage(1)
               }}
-              className="h-11 min-w-[8rem] rounded-xl border border-white/15 bg-slate-950/60 px-3 text-sm text-white focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35"
+              className={cn(ed.select, 'min-w-[8rem]')}
             >
               <option value="all">ทุกสถานะ</option>
               <option value="active">Active</option>
@@ -214,13 +213,10 @@ export function TeachersPage() {
             title="ไม่พบครูตามเงื่อนไข"
             description="ปรับคำค้นหาหรือตัวกรอง หรือเพิ่มครูใหม่ในระบบ"
             action={
-              <button
-                type="button"
+              <AddItemButton
+                label="เพิ่มครู"
                 onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
-                className="inline-flex h-10 items-center justify-center rounded-full border border-green-500/50 bg-green-600 px-4 text-sm font-semibold text-white shadow-md shadow-green-950/35 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700"
-              >
-                เพิ่มครู
-              </button>
+              />
             }
           />
         }

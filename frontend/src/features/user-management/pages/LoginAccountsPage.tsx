@@ -1,6 +1,7 @@
-import { KeyRound, Lock, Plus, Shield, Unlock, UserX } from 'lucide-react'
+import { KeyRound, Lock, Shield, Unlock, UserX } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
+import { AddItemButton } from '@/components/AddItemButton'
 import { useUserManagementAudit } from '@/features/user-management/audit/useUserManagementAudit'
 import { ConfirmDialog } from '@/features/user-management/components/ConfirmDialog'
 import { EmptyState } from '@/features/user-management/components/EmptyState'
@@ -12,6 +13,8 @@ import { UserTable, type UserTableColumn } from '@/features/user-management/comp
 import { formatThaiDateTime } from '@/features/user-management/lib/formatDate'
 import { ownerTypeLabel } from '@/features/user-management/lib/labels'
 import { paginate } from '@/features/user-management/lib/paginate'
+import { ed } from '@/lib/edtech-ui'
+import { cn } from '@/lib/utils'
 import { mockLoginAccounts } from '@/features/user-management/mock/accounts'
 import { mockStudents } from '@/features/user-management/mock/students'
 import { mockTeachers } from '@/features/user-management/mock/teachers'
@@ -165,11 +168,11 @@ export function LoginAccountsPage() {
 
   const columns: UserTableColumn<LoginAccountRow>[] = [
     { id: 'aid', header: 'Account ID', cell: (r) => <span className="font-mono text-xs">{r.accountId}</span> },
-    { id: 'user', header: 'Username', cell: (r) => <span className="font-mono text-xs text-white">{r.username}</span> },
-    { id: 'email', header: 'Email', cell: (r) => <span className="text-xs text-sky-200/90">{r.email}</span> },
+    { id: 'user', header: 'Username', cell: (r) => <span className="font-mono text-xs text-slate-800">{r.username}</span> },
+    { id: 'email', header: 'Email', cell: (r) => <span className="text-xs text-blue-600">{r.email}</span> },
     { id: 'ot', header: 'Owner Type', cell: (r) => ownerTypeLabel(r.ownerType) },
-    { id: 'on', header: 'Owner Name', cell: (r) => <span className="text-white/90">{r.ownerName}</span> },
-    { id: 'role', header: 'Role', cell: (r) => <span className="uppercase text-white/80">{r.role}</span> },
+    { id: 'on', header: 'Owner Name', cell: (r) => <span className="text-slate-800">{r.ownerName}</span> },
+    { id: 'role', header: 'Role', cell: (r) => <span className="uppercase text-slate-600">{r.role}</span> },
     {
       id: 'status',
       header: 'Status',
@@ -184,13 +187,13 @@ export function LoginAccountsPage() {
       id: 'last',
       header: 'Last Login',
       cell: (r) => (
-        <span className="text-xs text-white/70">{r.lastLoginAt ? formatThaiDateTime(r.lastLoginAt) : '—'}</span>
+        <span className="text-xs text-slate-500">{r.lastLoginAt ? formatThaiDateTime(r.lastLoginAt) : '—'}</span>
       ),
     },
     {
       id: 'created',
       header: 'Created',
-      cell: (r) => <span className="text-xs text-white/65">{formatThaiDateTime(r.createdAt)}</span>,
+      cell: (r) => <span className="text-xs text-slate-500">{formatThaiDateTime(r.createdAt)}</span>,
     },
     {
       id: 'actions',
@@ -200,21 +203,21 @@ export function LoginAccountsPage() {
         <div className="flex flex-col gap-1 sm:flex-row sm:flex-wrap">
           <button
             type="button"
-            className="rounded-lg px-2 py-1 text-xs font-medium text-sky-200 ring-1 ring-sky-400/35 hover:bg-sky-500/15"
+            className={ed.actionView}
             onClick={() => setModal({ kind: 'form', mode: 'view', row: r })}
           >
             View
           </button>
           <button
             type="button"
-            className="rounded-lg px-2 py-1 text-xs font-medium text-white ring-1 ring-white/20 hover:bg-white/10"
+            className={ed.actionEdit}
             onClick={() => setModal({ kind: 'form', mode: 'edit', row: r })}
           >
             Edit
           </button>
           <button
             type="button"
-            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-amber-100 ring-1 ring-amber-400/40 hover:bg-amber-500/15"
+            className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200 transition hover:bg-amber-50"
             onClick={() => setResetTarget(r)}
           >
             <KeyRound className="size-3.5" aria-hidden />
@@ -223,7 +226,7 @@ export function LoginAccountsPage() {
           {r.status === 'locked' ? (
             <button
               type="button"
-              className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-emerald-100 ring-1 ring-emerald-400/40 hover:bg-emerald-500/15"
+              className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200 transition hover:bg-emerald-50"
               onClick={() => applyUnlock(r)}
             >
               <Unlock className="size-3.5" aria-hidden />
@@ -233,7 +236,7 @@ export function LoginAccountsPage() {
             <button
               type="button"
               disabled={r.status === 'disabled'}
-              className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-amber-100 ring-1 ring-amber-400/40 hover:bg-amber-500/15 disabled:opacity-40"
+              className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200 transition hover:bg-amber-50 disabled:opacity-40"
               onClick={() => {
                 setLockReason('')
                 setLockTarget(r)
@@ -246,7 +249,7 @@ export function LoginAccountsPage() {
           <button
             type="button"
             disabled={r.status === 'disabled'}
-            className="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-medium text-rose-200 ring-1 ring-rose-400/35 hover:bg-rose-500/15 disabled:opacity-40"
+            className={cn(ed.actionDanger, 'inline-flex items-center gap-1')}
             onClick={() => setDisableTarget(r)}
           >
             <UserX className="size-3.5" aria-hidden />
@@ -258,22 +261,12 @@ export function LoginAccountsPage() {
   ]
 
   return (
-    <section className="space-y-5">
-      <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Login Accounts</h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
-            บัญชี Authentication แยกจากโปรไฟล์นักเรียน/ครู — หนึ่งคนอาจมีหรือไม่มีบัญชีก็ได้
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-green-500/50 bg-green-600 px-5 text-sm font-semibold text-white shadow-md shadow-green-950/40 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-        >
-          <Plus className="size-4" aria-hidden />
-          สร้างบัญชีผู้ใช้
-        </button>
+    <section className="space-y-6">
+      <header className="space-y-2">
+        <h1 className={ed.pageTitle}>Login Accounts</h1>
+        <p className={ed.pageLead}>
+          บัญชี Authentication แยกจากโปรไฟล์นักเรียน/ครู — หนึ่งคนอาจมีหรือไม่มีบัญชีก็ได้
+        </p>
       </header>
 
       <SearchFilterBar
@@ -283,6 +276,12 @@ export function LoginAccountsPage() {
           setSearch(v)
           setPage(1)
         }}
+        actions={
+          <AddItemButton
+            label="สร้างบัญชีผู้ใช้"
+            onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
+          />
+        }
         filters={
           <>
             <select
@@ -291,7 +290,7 @@ export function LoginAccountsPage() {
                 setRoleFilter(e.target.value)
                 setPage(1)
               }}
-              className="h-11 min-w-[8rem] rounded-xl border border-white/15 bg-slate-950/60 px-3 text-sm text-white focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35"
+              className={cn(ed.select, 'min-w-[8rem]')}
             >
               <option value="all">ทุก Role</option>
               {(['admin', 'teacher', 'student'] as AccountRole[]).map((role) => (
@@ -306,7 +305,7 @@ export function LoginAccountsPage() {
                 setStatusFilter(e.target.value)
                 setPage(1)
               }}
-              className="h-11 min-w-[9rem] rounded-xl border border-white/15 bg-slate-950/60 px-3 text-sm text-white focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35"
+              className={cn(ed.select, 'min-w-[9rem]')}
             >
               <option value="all">ทุกสถานะบัญชี</option>
               {(['active', 'locked', 'disabled'] as AccountStatus[]).map((s) => (
@@ -329,13 +328,10 @@ export function LoginAccountsPage() {
             title="ไม่พบบัญชี"
             description="ลองค้นหาใหม่หรือสร้างบัญชีผู้ใช้ใหม่"
             action={
-              <button
-                type="button"
+              <AddItemButton
+                label="สร้างบัญชีผู้ใช้"
                 onClick={() => setModal({ kind: 'form', mode: 'create', row: null })}
-                className="inline-flex h-10 items-center justify-center rounded-full border border-green-500/50 bg-green-600 px-4 text-sm font-semibold text-white shadow-md shadow-green-950/35 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700"
-              >
-                สร้างบัญชีผู้ใช้
-              </button>
+              />
             }
           />
         }
@@ -387,13 +383,13 @@ export function LoginAccountsPage() {
           setLockReason('')
         }}
       >
-        <label className="block text-sm text-white/80">
-          <span className="mb-1 block text-xs font-medium text-white/65">เหตุผล (แสดงใน UI / audit)</span>
+        <label className="block text-sm text-slate-700">
+          <span className={cn(ed.label, 'mb-1 block')}>เหตุผล (แสดงใน UI / audit)</span>
           <textarea
             value={lockReason}
             onChange={(e) => setLockReason(e.target.value)}
             rows={2}
-            className="mt-1 w-full rounded-xl border border-white/15 bg-slate-950/60 px-3 py-2 text-sm text-white placeholder:text-white/35 focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35"
+            className={cn(ed.input, 'mt-1 resize-y py-2')}
             placeholder="เช่น สงสัยการเข้าถึงผิดปกติ"
           />
         </label>

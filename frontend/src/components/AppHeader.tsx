@@ -18,28 +18,23 @@ import { cn } from '@/lib/utils'
 import logo from '@/assets/logo.png'
 
 const iconBtnClass =
-  'inline-flex shrink-0 items-center justify-center rounded-lg p-2 text-white min-h-[44px] min-w-[44px] touch-manipulation ring-1 ring-white/25 transition-colors hover:bg-orange-400/25 active:bg-orange-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900/80'
+  'inline-flex shrink-0 items-center justify-center rounded-xl p-2 text-slate-600 min-h-[44px] min-w-[44px] touch-manipulation border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40 focus-visible:ring-offset-2'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
-    'rounded-xl px-3 py-2 text-sm font-medium transition-colors duration-200 min-h-[44px] touch-manipulation md:min-h-9 md:px-3 md:py-1.5',
-    'inline-flex items-center justify-center md:justify-center',
-    'text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900/80',
+    'rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-200 min-h-[44px] touch-manipulation md:min-h-9',
+    'inline-flex items-center justify-center gap-2',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/45 focus-visible:ring-offset-2',
     isActive
-      ? 'bg-orange-600 text-white shadow-md shadow-orange-950/40 ring-1 ring-orange-400/60 hover:bg-orange-500'
-      : 'ring-1 ring-transparent hover:bg-orange-400/25 active:bg-orange-600',
+      ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20 hover:bg-blue-500'
+      : 'text-slate-600 hover:bg-blue-50 hover:text-slate-900',
   )
 
 const navLinkClassMobile = ({ isActive }: { isActive: boolean }) =>
-  cn(
-    navLinkClass({ isActive }),
-    'w-full justify-start',
-    !isActive && 'ring-white/15',
-  )
+  cn(navLinkClass({ isActive }), 'w-full justify-start')
 
 const LOGIN_PATH = '/login'
 
-/** เมนูที่ซ่อนจาก topbar เมื่อยังไม่ล็อกอิน (landing ใช้โลโก้ / route อื่นแทน) */
 const TOPBAR_GUEST_HIDDEN_IDS = new Set(['home', 'guide'])
 
 function emailInitial(email: string) {
@@ -62,7 +57,6 @@ export function AppHeader() {
   const [sessionAvatarUrl, setSessionAvatarUrl] = useState<string | null>(null)
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
   const accountAvatarId = useId()
-  // TODO: wire ค่า notificationCount จาก API จริงเมื่อพร้อม
   const [notificationCount] = useState(0)
 
   useEffect(() => {
@@ -169,9 +163,9 @@ export function AppHeader() {
   }, [accountMenuOpen])
 
   return (
-    <header className="sticky top-0 z-50 w-full shrink-0 border-b border-white/15 bg-slate-950/55 shadow-md shadow-black/20 backdrop-blur-md">
-      <div className="flex min-w-0 items-center gap-2 px-3 py-2 sm:gap-3 sm:px-4 sm:py-2">
-        <div className="flex min-w-0 shrink-0 items-center gap-2 sm:gap-3">
+    <header className="sticky top-0 z-50 w-full shrink-0 border-b border-slate-200 bg-white/80 shadow-sm backdrop-blur-md">
+      <div className="flex min-h-14 min-w-0 items-center gap-3 px-4 py-2 sm:min-h-[3.75rem] sm:px-6">
+        <div className="flex min-w-0 shrink-0 items-center gap-3">
           {hasSubNav ? (
             <button
               type="button"
@@ -180,19 +174,19 @@ export function AppHeader() {
               aria-controls="sub-nav-drawer"
               onClick={() => setMobileSubNavOpen(true)}
             >
-              <PanelLeft className="size-6" aria-hidden />
+              <PanelLeft className="size-5" aria-hidden />
             </button>
           ) : null}
 
           <Link
             to="/"
-            className="flex min-h-0 min-w-0 max-w-[min(100%,12rem)] items-center justify-start py-0 transition-opacity hover:opacity-95 sm:max-w-[14rem] md:max-w-[16rem]"
+            className="flex h-11 shrink-0 items-center justify-start transition-opacity hover:opacity-90 sm:h-12 md:h-[3.25rem]"
             aria-label="Krusa Club — หน้าแรก"
           >
             <img
               src={logo}
               alt="Krusa Club"
-              className="block h-9 w-full max-h-10 origin-left object-contain object-left drop-shadow-lg drop-shadow-black/40 sm:h-10 sm:max-h-11 md:h-11 md:max-h-12"
+              className="block h-full w-auto max-w-[min(100%,11rem)] object-contain object-left sm:max-w-[13.5rem] md:max-w-[16rem] lg:max-w-[18rem]"
             />
           </Link>
         </div>
@@ -212,27 +206,24 @@ export function AppHeader() {
                 })
               }
             >
-              <span className="inline-flex items-center gap-2">
-                <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
-                <span>{item.label}</span>
-              </span>
+              <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
+              <span>{item.label}</span>
             </NavLink>
           ))}
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 md:ml-0">
-          {/* ── Notification bell — หน้าสุด แสดงเฉพาะเมื่อ login ── */}
           {isAuthenticated ? (
             <button
               type="button"
               aria-label="การแจ้งเตือน"
-              className="relative inline-flex min-h-[44px] min-w-[44px] shrink-0 touch-manipulation items-center justify-center text-white/70 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900/80"
+              className="relative inline-flex min-h-[44px] min-w-[44px] shrink-0 touch-manipulation items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40"
             >
               <Bell className="size-5" aria-hidden />
               {notificationCount > 0 && (
                 <span
                   aria-label={`${notificationCount} การแจ้งเตือนที่ยังไม่อ่าน`}
-                  className="absolute right-2 top-2 flex size-2 rounded-full bg-orange-400 ring-1 ring-slate-950"
+                  className="absolute right-2.5 top-2.5 flex size-2 rounded-full bg-amber-400 ring-2 ring-white"
                 />
               )}
             </button>
@@ -248,7 +239,7 @@ export function AppHeader() {
                 aria-haspopup="menu"
                 aria-controls={`${accountAvatarId}-desktop-menu`}
                 onClick={() => setAccountMenuOpen((o) => !o)}
-                className="size-10 shrink-0 overflow-hidden rounded-full border border-white/25 bg-slate-800/90 shadow-md transition hover:border-orange-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900/80"
+                className="size-10 shrink-0 overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 shadow-sm transition hover:border-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/45"
               >
                 {profileAvatarUrl ? (
                   <img
@@ -258,7 +249,7 @@ export function AppHeader() {
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <span className="flex size-full items-center justify-center text-[0.7rem] font-semibold uppercase text-white/95">
+                  <span className="flex size-full items-center justify-center text-[0.7rem] font-semibold uppercase text-slate-600">
                     {emailInitial(authedEmail ?? 'user')}
                   </span>
                 )}
@@ -268,15 +259,15 @@ export function AppHeader() {
                   id={`${accountAvatarId}-desktop-menu`}
                   role="menu"
                   aria-labelledby={`${accountAvatarId}-desktop-trigger`}
-                  className="absolute right-0 z-50 mt-1.5 w-56 rounded-xl border border-white/15 bg-slate-950/95 py-1 shadow-lg shadow-black/40 backdrop-blur-md"
+                  className="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
                 >
-                  <p className="truncate px-3 py-2 text-xs text-white/75" role="presentation">
+                  <p className="truncate px-4 py-2.5 text-xs text-slate-500" role="presentation">
                     {authedEmail ?? 'Signed in'}
                   </p>
                   <button
                     type="button"
                     role="menuitem"
-                    className="w-full px-3 py-2 text-left text-sm text-white transition hover:bg-white/10"
+                    className="w-full px-4 py-2.5 text-left text-sm text-slate-700 transition hover:bg-slate-50"
                     onClick={() => {
                       setAccountMenuOpen(false)
                       void handleLogout()
@@ -302,10 +293,8 @@ export function AppHeader() {
                 )
               }
             >
-              <span className="inline-flex items-center gap-2">
-                <NavMenuIcon icon={loginNavItem.icon} className="size-4 shrink-0 opacity-90" />
-                <span>{loginLabel}</span>
-              </span>
+              <NavMenuIcon icon={loginNavItem.icon} className="size-4 shrink-0 opacity-90" />
+              <span>{loginLabel}</span>
             </NavLink>
           ) : null}
 
@@ -317,7 +306,7 @@ export function AppHeader() {
             aria-label={mobileOpen ? 'ปิดเมนู' : 'เปิดเมนู'}
             onClick={handleMobileMenuToggle}
           >
-            {mobileOpen ? <X className="size-6" aria-hidden /> : <Menu className="size-6" aria-hidden />}
+            {mobileOpen ? <X className="size-5" aria-hidden /> : <Menu className="size-5" aria-hidden />}
           </button>
         </div>
       </div>
@@ -325,7 +314,7 @@ export function AppHeader() {
       {mobileOpen ? (
         <nav
           id={menuId}
-          className="flex flex-col gap-1 border-t border-white/10 bg-slate-950/50 px-3 py-2 sm:px-4 md:hidden"
+          className="flex flex-col gap-2 border-t border-slate-200 bg-white/95 px-4 py-3 md:hidden"
           aria-label="เมนูหลัก"
         >
           {mobileDrawerItems.map((item) => (
@@ -340,14 +329,12 @@ export function AppHeader() {
               }
               onClick={() => setMobileOpen(false)}
             >
-              <span className="inline-flex items-center gap-2">
-                <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
-                <span>{item.label}</span>
-              </span>
+              <NavMenuIcon icon={item.icon} className="size-4 shrink-0 opacity-90" />
+              <span>{item.label}</span>
             </NavLink>
           ))}
           {isAuthenticated ? (
-            <div className="mt-2 border-t border-white/10 pt-3 md:hidden" data-account-menu-root>
+            <div className="mt-2 border-t border-slate-200 pt-3 md:hidden" data-account-menu-root>
               <button
                 type="button"
                 id={`${accountAvatarId}-mobile-trigger`}
@@ -356,7 +343,7 @@ export function AppHeader() {
                 aria-haspopup="menu"
                 aria-controls={`${accountAvatarId}-mobile-menu`}
                 onClick={() => setAccountMenuOpen((o) => !o)}
-                className="size-11 shrink-0 overflow-hidden rounded-full border border-white/25 bg-slate-800/90 shadow-md transition hover:border-orange-400/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900/80"
+                className="size-11 shrink-0 overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 shadow-sm"
               >
                 {profileAvatarUrl ? (
                   <img
@@ -366,7 +353,7 @@ export function AppHeader() {
                     referrerPolicy="no-referrer"
                   />
                 ) : (
-                  <span className="flex size-full items-center justify-center text-sm font-semibold uppercase text-white/95">
+                  <span className="flex size-full items-center justify-center text-sm font-semibold uppercase text-slate-600">
                     {emailInitial(authedEmail ?? 'user')}
                   </span>
                 )}
@@ -376,15 +363,15 @@ export function AppHeader() {
                   id={`${accountAvatarId}-mobile-menu`}
                   role="menu"
                   aria-labelledby={`${accountAvatarId}-mobile-trigger`}
-                  className="mt-2 w-full rounded-xl border border-white/15 bg-slate-950/90 py-1 shadow-md shadow-black/30 backdrop-blur-md"
+                  className="mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-sm"
                 >
-                  <p className="break-all px-3 py-2 text-xs text-white/75" role="presentation">
+                  <p className="break-all px-4 py-2 text-xs text-slate-500" role="presentation">
                     {authedEmail ?? 'Signed in'}
                   </p>
                   <button
                     type="button"
                     role="menuitem"
-                    className="w-full px-3 py-2.5 text-left text-sm text-white transition hover:bg-white/10"
+                    className="w-full px-4 py-2.5 text-left text-sm text-slate-700 transition hover:bg-slate-50"
                     onClick={() => {
                       setAccountMenuOpen(false)
                       void handleLogout()

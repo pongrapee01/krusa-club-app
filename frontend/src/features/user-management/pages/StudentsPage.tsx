@@ -1,6 +1,7 @@
-import { GraduationCap, Plus, Upload } from 'lucide-react'
+import { GraduationCap, Upload } from 'lucide-react'
 import { useMemo, useState } from 'react'
 
+import { AddItemButton } from '@/components/AddItemButton'
 import { useUserManagementAudit } from '@/features/user-management/audit/useUserManagementAudit'
 import { ConfirmDialog } from '@/features/user-management/components/ConfirmDialog'
 import { EmptyState } from '@/features/user-management/components/EmptyState'
@@ -11,6 +12,8 @@ import { StudentImportModal } from '@/features/user-management/components/Studen
 import { UserFormModal } from '@/features/user-management/components/UserFormModal'
 import { UserTable, type UserTableColumn } from '@/features/user-management/components/UserTable'
 import { formatThaiDateTime } from '@/features/user-management/lib/formatDate'
+import { ed } from '@/lib/edtech-ui'
+import { cn } from '@/lib/utils'
 import { genderLabel } from '@/features/user-management/lib/labels'
 import { paginate } from '@/features/user-management/lib/paginate'
 import { mockStudents } from '@/features/user-management/mock/students'
@@ -124,7 +127,7 @@ export function StudentsPage() {
 
   const columns: UserTableColumn<StudentRow>[] = [
     { id: 'sid', header: 'Student ID', cell: (r) => <span className="font-mono text-xs">{r.studentId}</span> },
-    { id: 'name', header: 'ชื่อ-นามสกุล', cell: (r) => <span className="font-medium text-white">{r.fullName}</span> },
+    { id: 'name', header: 'ชื่อ-นามสกุล', cell: (r) => <span className="font-medium text-slate-900">{r.fullName}</span> },
     { id: 'grade', header: 'ระดับชั้น', cell: (r) => r.gradeLevel },
     { id: 'room', header: 'ห้อง', cell: (r) => r.room },
     { id: 'roll', header: 'เลขที่', cell: (r) => r.rollNo },
@@ -137,7 +140,7 @@ export function StudentsPage() {
     {
       id: 'created',
       header: 'วันที่สร้าง',
-      cell: (r) => <span className="text-white/75">{formatThaiDateTime(r.createdAt)}</span>,
+      cell: (r) => <span className="text-slate-500">{formatThaiDateTime(r.createdAt)}</span>,
     },
     {
       id: 'actions',
@@ -147,14 +150,14 @@ export function StudentsPage() {
         <div className="flex flex-wrap gap-1">
           <button
             type="button"
-            className="rounded-lg px-2 py-1 text-xs font-medium text-sky-200 ring-1 ring-sky-400/35 hover:bg-sky-500/15"
+            className={ed.actionView}
             onClick={() => setModal({ kind: 'form', mode: 'view', row: r })}
           >
             View
           </button>
           <button
             type="button"
-            className="rounded-lg px-2 py-1 text-xs font-medium text-white ring-1 ring-white/20 hover:bg-white/10"
+            className={ed.actionEdit}
             onClick={() => setModal({ kind: 'form', mode: 'edit', row: r })}
           >
             Edit
@@ -162,7 +165,7 @@ export function StudentsPage() {
           <button
             type="button"
             disabled={r.status === 'inactive'}
-            className="rounded-lg px-2 py-1 text-xs font-medium text-rose-200 ring-1 ring-rose-400/35 hover:bg-rose-500/15 disabled:cursor-not-allowed disabled:opacity-40"
+            className={ed.actionDanger}
             onClick={() => setConfirmDisable(r)}
           >
             Disable
@@ -173,30 +176,18 @@ export function StudentsPage() {
   ]
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-6">
       <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Students</h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
+          <h1 className={ed.pageTitle}>Students</h1>
+          <p className={ed.pageLead}>
             จัดการข้อมูลบุคคลนักเรียน (โปรไฟล์) แยกจากบัญชี Login — ใช้ Disable แทนการลบข้อมูล
           </p>
         </div>
-        <div className="flex shrink-0 flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setImportOpen(true)}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/25 bg-slate-950/50 px-5 text-sm font-semibold text-white shadow-md shadow-black/20 transition hover:bg-white/10"
-          >
+        <div className="flex shrink-0 flex-wrap gap-3">
+          <button type="button" onClick={() => setImportOpen(true)} className={ed.btnSecondary}>
             <Upload className="size-4" aria-hidden />
             Import CSV
-          </button>
-          <button
-            type="button"
-            onClick={openCreate}
-            className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-green-500/50 bg-green-600 px-5 text-sm font-semibold text-white shadow-md shadow-green-950/40 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-          >
-            <Plus className="size-4" aria-hidden />
-            เพิ่มนักเรียน
           </button>
         </div>
       </header>
@@ -208,6 +199,7 @@ export function StudentsPage() {
           setSearch(v)
           setPage(1)
         }}
+        actions={<AddItemButton label="เพิ่มนักเรียน" onClick={openCreate} />}
         filters={
           <select
             value={gradeFilter}
@@ -215,7 +207,7 @@ export function StudentsPage() {
               setGradeFilter(e.target.value)
               setPage(1)
             }}
-            className="h-11 min-w-[8.5rem] rounded-xl border border-white/15 bg-slate-950/60 px-3 text-sm text-white focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35"
+            className={cn(ed.select, 'min-w-[8.5rem]')}
           >
             <option value="all">ทุกระดับชั้น</option>
             {grades.map((g) => (
@@ -241,18 +233,12 @@ export function StudentsPage() {
                 <button
                   type="button"
                   onClick={() => setImportOpen(true)}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/25 bg-slate-950/50 px-4 text-sm font-semibold text-white ring-1 ring-white/15 hover:bg-white/10"
+                  className={ed.btnSecondary}
                 >
                   <Upload className="size-4" aria-hidden />
                   Import CSV
                 </button>
-                <button
-                  type="button"
-                  onClick={openCreate}
-                  className="inline-flex h-10 items-center justify-center rounded-full border border-green-500/50 bg-green-600 px-4 text-sm font-semibold text-white shadow-md shadow-green-950/35 ring-1 ring-green-400/55 transition hover:border-green-400/65 hover:bg-green-500 hover:ring-green-300/60 active:bg-green-700"
-                >
-                  เพิ่มนักเรียน
-                </button>
+                <AddItemButton label="เพิ่มนักเรียน" onClick={openCreate} />
               </div>
             }
           />

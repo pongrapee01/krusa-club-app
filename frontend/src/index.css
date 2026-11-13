@@ -1,12 +1,77 @@
 @import "tailwindcss";
 
+/**
+ * Clean Adventure Learning — EdTech ประถม
+ * Design tokens + พื้นหลังสว่าง (ไม่เปลี่ยน font / layout structure)
+ */
 @theme {
   --font-sans:
     "Sarabun", "TH Sarabun New", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ed-bg: #f8fafc;
+  --color-ed-bg-soft: #eff6ff;
+  --color-ed-surface: #ffffff;
+  --color-ed-primary: #2563eb;
+  --color-ed-secondary: #38bdf8;
+  --color-ed-accent: #facc15;
+  --color-ed-text: #0f172a;
+  --color-ed-text-sub: #64748b;
+  --color-ed-border: #e2e8f0;
+
+  /* Map Tailwind scales → Clean Adventure */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+
+  --color-blue-50: #eff6ff;
+  --color-blue-100: #dbeafe;
+  --color-blue-400: #60a5fa;
+  --color-blue-500: #3b82f6;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+
+  --color-sky-200: #e0f2fe;
+  --color-sky-400: #38bdf8;
+  --color-sky-500: #0ea5e9;
+  --color-sky-600: #0284c7;
+  --color-sky-950: #0c4a6e;
+
+  --color-orange-400: #fb923c;
+  --color-orange-500: #f97316;
+  --color-orange-600: #ea580c;
+
+  --color-emerald-100: #d1fae5;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-green-500: #22c55e;
+  --color-green-600: #16a34a;
+
+  --color-amber-100: #fef9c3;
+  --color-amber-400: #facc15;
+  --color-amber-500: #eab308;
+
+  --color-teal-200: #ccfbf1;
+  --color-teal-400: #2dd4bf;
+  --color-teal-700: #0f766e;
+
+  --color-rose-100: #ffe4e6;
+  --color-rose-200: #fecdd3;
+  --color-rose-400: #fb7185;
+  --color-rose-500: #f43f5e;
+  --color-rose-600: #e11d48;
 }
 
 html {
   overflow-x: clip;
+  color-scheme: light;
 }
 
 html,
@@ -17,26 +82,13 @@ body {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  color: #f8fafc;
-  -webkit-tap-highlight-color: rgb(251 146 60 / 0.35);
-  background-color: rgb(15 23 42 / 0.92);
+  color: var(--color-ed-text);
+  -webkit-tap-highlight-color: rgb(37 99 235 / 0.2);
+  background-color: var(--color-ed-bg);
   background-image:
-    radial-gradient(
-      ellipse 100% 70% at 50% -15%,
-      rgb(37 99 235 / 0.22),
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse 80% 50% at 100% 30%,
-      rgb(30 64 175 / 0.18),
-      transparent 45%
-    ),
-    linear-gradient(
-      180deg,
-      rgb(15 23 42 / 0.88) 0%,
-      rgb(23 37 84 / 0.9) 45%,
-      rgb(15 23 42 / 0.92) 100%
-    );
+    radial-gradient(ellipse 90% 60% at 0% -10%, rgb(239 246 255 / 0.9), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 100% 0%, rgb(240 249 255 / 0.85), transparent 50%),
+    linear-gradient(180deg, #f8fafc 0%, #eff6ff 48%, #f0f9ff 100%);
   background-attachment: fixed;
 }
 
@@ -44,17 +96,79 @@ body {
   min-height: 100%;
 }
 
-/**
- * พื้นหลังคอลัมน์เนื้อหา (main) — มืดลงเล็กน้อยจากพื้นหลัง body โดยเลเยอร์ดำ ~5% opacity
- * ไม่กระทบ header / sidebar / footer
- */
-.app-main-content {
-  background-color: rgb(0 0 0 / 0.05);
+::selection {
+  background-color: rgb(191 219 254 / 0.9);
+  color: #0f172a;
 }
 
-/* ── Loading: จรวดพุ่งขึ้น ───────────────────────────────────────────────── */
+/* ── App shell (layout ไม่เปลี่ยน — แค่โทน) ── */
+.ed-app {
+  color: #0f172a;
+}
+
+#root > div > header {
+  background: rgb(255 255 255 / 0.82) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #e2e8f0 !important;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 0.06) !important;
+}
+
+#root > div > footer {
+  background: rgb(255 255 255 / 0.88) !important;
+  backdrop-filter: blur(8px);
+  border-top: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+#root aside.border-r {
+  background: rgb(255 255 255 / 0.94) !important;
+  border-right: 1px solid #e2e8f0 !important;
+  box-shadow: none !important;
+}
+
+.app-main-content {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+/* ── Legacy dark utilities → light (fallback สำหรับ class ที่ยังไม่ migrate) ── */
+.ed-app [class*="bg-slate-950"],
+.ed-app [class*="bg-slate-900"],
+.ed-app [class*="bg-slate-800"] {
+  background-color: rgb(255 255 255 / 0.97) !important;
+}
+
+.ed-app [class*="border-white"] {
+  border-color: #e2e8f0 !important;
+}
+
+.ed-app [class*="divide-white"] {
+  --tw-divide-color: #f1f5f9 !important;
+}
+
+.ed-app [class*="shadow-black"] {
+  --tw-shadow-color: rgb(15 23 42 / 0.08) !important;
+}
+
+/* ข้อความบนพื้นสี (ปุ่ม / แท็บ active) — คงสีขาว */
+.ed-app [class*="bg-blue-6"][class*="text-white"],
+.ed-app [class*="bg-orange-6"][class*="text-white"],
+.ed-app [class*="bg-green-6"][class*="text-white"],
+.ed-app [class*="bg-emerald-5"][class*="text-white"],
+.ed-app [class*="bg-sky-5"][class*="text-white"],
+.ed-app [class*="bg-sky-6"][class*="text-white"],
+.ed-app [class*="bg-teal-7"][class*="text-white"],
+.ed-app [class~="bg-blue-600"].text-white,
+.ed-app [class~="bg-orange-600"].text-white,
+.ed-app [class~="bg-green-600"].text-white {
+  color: #fff !important;
+}
+
+/* ── Loading ── */
 .edtech-loader-float {
-  filter: drop-shadow(0 12px 28px rgb(0 0 0 / 0.45)) drop-shadow(0 6px 20px rgb(249 115 22 / 0.2));
+  filter: drop-shadow(0 12px 28px rgb(15 23 42 / 0.12))
+    drop-shadow(0 6px 20px rgb(37 99 235 / 0.2));
   animation: edtech-loader-float 1.35s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 

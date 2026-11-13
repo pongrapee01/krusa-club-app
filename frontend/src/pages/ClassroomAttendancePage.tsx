@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AttendanceStudentCard } from '@/components/classroom/AttendanceStudentCard'
 import { ApiError } from '@/lib/api/apiClient'
 import { env } from '@/lib/env'
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 import {
   type AttendanceRollScope,
@@ -163,12 +164,12 @@ export function ClassroomAttendancePage() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-white/15 bg-white/10 shadow-inner ring-1 ring-white/10 sm:size-12">
-              <ClipboardCheck className="size-5 text-emerald-200 sm:size-6" aria-hidden />
+            <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-slate-50 shadow-sm ring-1 ring-slate-100 sm:size-12">
+              <ClipboardCheck className="size-5 text-emerald-600 sm:size-6" aria-hidden />
             </div>
             <div>
-              <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">เช็คชื่อ</h1>
-              <p className="mt-1 max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">{scopeDescription}</p>
+              <h1 className={ed.pageTitle}>เช็คชื่อ</h1>
+              <p className={cn('mt-1', ed.pageLead)}>{scopeDescription}</p>
             </div>
           </div>
         </div>
@@ -177,7 +178,7 @@ export function ClassroomAttendancePage() {
       {enabled ? (
         <div className="space-y-4">
           <div>
-            <p className="mb-2 text-xs font-medium uppercase tracking-wide text-white/50">เลือกประเภทการเช็คชื่อ</p>
+            <p className={cn('mb-2', ed.labelCaps)}>เลือกประเภทการเช็คชื่อ</p>
             <div className="grid gap-2 sm:grid-cols-2">
               <button
                 type="button"
@@ -189,15 +190,15 @@ export function ClassroomAttendancePage() {
                   'flex min-h-[52px] flex-col items-start gap-1 rounded-2xl border px-4 py-3 text-left transition',
                   rollScope === 'period'
                     ? 'border-orange-400/55 bg-orange-600/25 text-white ring-1 ring-orange-400/30'
-                    : 'border-white/15 bg-slate-950/50 text-white/80 hover:border-white/25 hover:bg-slate-900/70',
+                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
                 )}
               >
                 <span className="flex items-center gap-2 text-sm font-semibold">
-                  <BookOpen className="size-4 shrink-0 text-orange-200" aria-hidden />
+                  <BookOpen className="size-4 shrink-0 text-orange-600" aria-hidden />
                   เช็คชื่อรายคาบเรียน
                 </span>
-                <span className="text-xs leading-snug text-white/55">
-                  ผูกตารางสอน · Smart detect คาบปัจจุบัน · แก้ย้อนหลังตามวัน-เวลาของคาบ
+                <span className={cn('text-xs leading-snug', ed.textMuted)}>
+                  Smart detect คาบปัจจุบัน · แก้ย้อนหลังตามวัน-เวลาของคาบ
                 </span>
               </button>
               <button
@@ -210,22 +211,22 @@ export function ClassroomAttendancePage() {
                   'flex min-h-[52px] flex-col items-start gap-1 rounded-2xl border px-4 py-3 text-left transition',
                   rollScope === 'homeroom'
                     ? 'border-teal-400/55 bg-teal-700/30 text-white ring-1 ring-teal-400/25'
-                    : 'border-white/15 bg-slate-950/50 text-white/80 hover:border-white/25 hover:bg-slate-900/70',
+                    : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
                 )}
               >
                 <span className="flex items-center gap-2 text-sm font-semibold">
-                  <Users className="size-4 shrink-0 text-teal-200" aria-hidden />
+                  <Users className="size-4 shrink-0 text-teal-600" aria-hidden />
                   เช็คชื่อหน้าแถว
                 </span>
-                <span className="text-xs leading-snug text-white/55">
+                <span className={cn('text-xs leading-snug', ed.textMuted)}>
                   ครูประจำชั้น · รายชื่อห้อง · แยกจากคาบวิชา
                 </span>
               </button>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/12 bg-slate-950/40 p-4 ring-1 ring-white/10">
-            <p className="mb-3 text-xs font-medium uppercase tracking-wide text-white/50">ช่วงเวลาที่กำลังเช็ค</p>
+          <div className={cn(ed.surface, 'p-4')}>
+            <p className={cn('mb-3', ed.labelCaps)}>ช่วงเวลาที่กำลังเช็ค</p>
             <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
               <div className="flex flex-wrap gap-2">
                 <button
@@ -238,7 +239,7 @@ export function ClassroomAttendancePage() {
                     'inline-flex min-h-[44px] items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-semibold transition',
                     viewMode === 'smart'
                       ? 'border-orange-400/55 bg-orange-600/90 text-white shadow-md shadow-orange-950/30'
-                      : 'border-white/20 bg-slate-900/50 text-white/85 hover:bg-white/10',
+                      : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
                   )}
                 >
                   <Sparkles className="size-4 shrink-0" aria-hidden />
@@ -251,7 +252,7 @@ export function ClassroomAttendancePage() {
                     'inline-flex min-h-[44px] items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-semibold transition',
                     viewMode === 'history'
                       ? 'border-sky-400/55 bg-sky-600/85 text-white shadow-md shadow-sky-950/30'
-                      : 'border-white/20 bg-slate-900/50 text-white/85 hover:bg-white/10',
+                      : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
                   )}
                 >
                   <CalendarClock className="size-4 shrink-0" aria-hidden />
@@ -269,9 +270,9 @@ export function ClassroomAttendancePage() {
                     type="datetime-local"
                     value={historyAt}
                     onChange={(e) => setHistoryAt(e.target.value)}
-                    className="min-h-[44px] w-full min-w-0 flex-1 rounded-xl border border-white/20 bg-slate-900/80 px-3 py-2 text-sm text-white tabular-nums shadow-inner outline-none ring-0 focus:border-sky-400/60 focus:ring-2 focus:ring-sky-500/30"
+                    className={cn(ed.input, 'min-h-[44px] tabular-nums')}
                   />
-                  <p className="text-xs leading-relaxed text-white/55 sm:max-w-[14rem]">
+                  <p className={cn('text-xs leading-relaxed sm:max-w-[14rem]', ed.textMuted)}>
                     {rollScope === 'period'
                       ? 'เวลาที่เลือกใช้ชี้ไปที่คาบในวันนั้น (ตามตาราง)'
                       : 'เวลาที่เลือกใช้ชี้ไปที่รอบหน้าแถวในวันนั้น (ตามกำหนดโรงเรียน)'}
@@ -280,8 +281,8 @@ export function ClassroomAttendancePage() {
               ) : null}
             </div>
             {viewMode === 'history' ? (
-              <p className="mt-3 text-xs text-white/45">
-                กำลังดูแผ่น: <span className="font-medium text-white/75">{formatHistoryAtTh(historyAt)}</span>
+              <p className={cn('mt-3 text-xs', ed.textMuted)}>
+                กำลังดูแผ่น: <span className={cn('font-medium', ed.textSub)}>{formatHistoryAtTh(historyAt)}</span>
               </p>
             ) : null}
           </div>
@@ -289,32 +290,32 @@ export function ClassroomAttendancePage() {
       ) : null}
 
       {!enabled ? (
-        <div className="rounded-2xl border border-amber-400/35 bg-amber-950/35 p-4 text-sm text-amber-50 ring-1 ring-amber-400/20 backdrop-blur-sm">
-          ยังไม่ได้ตั้งค่า <code className="rounded bg-black/25 px-1">VITE_API_BASE_URL</code> — ระบบเช็คชื่อจะเรียก API ไม่ได้
-          <span className="mt-2 block text-amber-100/90">
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200/80">
+          ยังไม่ได้ตั้งค่า <code className={ed.code}>VITE_API_BASE_URL</code> — ระบบเช็คชื่อจะเรียก API ไม่ได้
+          <span className={cn('mt-2 block', ed.textWarning)}>
             ถ้าต้องการดู UI การ์ดรายชื่อโดยไม่มี backend ให้ตั้ง{' '}
-            <code className="rounded bg-black/25 px-1">VITE_USE_ATTENDANCE_MOCK=true</code> แล้วรีสตาร์ท dev server
+            <code className={ed.code}>VITE_USE_ATTENDANCE_MOCK=true</code> แล้วรีสตาร์ท dev server
           </span>
         </div>
       ) : null}
 
       {isAttendanceRollCallMockEnabled() ? (
-        <div className="rounded-2xl border border-violet-400/40 bg-violet-950/40 p-4 text-sm text-violet-100 ring-1 ring-violet-400/25">
-          <strong className="font-semibold text-white">โหมด mock:</strong> แสดงรายชื่อตัวอย่างจาก{' '}
-          <code className="rounded bg-black/25 px-1">src/mocks/attendanceRollCallMock.ts</code> — ปุ่มบันทึกจะไม่ยิง API จริง
+        <div className="rounded-2xl border border-violet-200 bg-violet-50 p-4 text-sm text-violet-900 ring-1 ring-violet-200/80">
+          <strong className="font-semibold text-violet-950">โหมด mock:</strong> แสดงรายชื่อตัวอย่างจาก{' '}
+          <code className={ed.code}>src/mocks/attendanceRollCallMock.ts</code> — ปุ่มบันทึกจะไม่ยิง API จริง
         </div>
       ) : null}
 
       {enabled && viewMode === 'history' && !historyAtValid ? (
-        <div className="rounded-2xl border border-amber-400/35 bg-amber-950/30 p-4 text-sm text-amber-50 ring-1 ring-amber-400/20">
-          เลือก<strong className="font-semibold text-white"> วันและเวลา </strong>ใน datetime picker ให้ครบ
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200/80">
+          เลือก<strong className="font-semibold text-amber-950"> วันและเวลา </strong>ใน datetime picker ให้ครบ
           (รูปแบบ ปี-เดือน-วัน และชั่วโมง:นาที) แล้วระบบจะโหลดแผ่นเช็คชื่อให้อัตโนมัติ
         </div>
       ) : null}
 
       {enabled && query.isPending ? (
-        <div className="flex items-center gap-2 rounded-2xl border border-white/15 bg-slate-950/50 px-4 py-6 text-sm text-white/80 ring-1 ring-white/10">
-          <Loader2 className="size-5 shrink-0 animate-spin text-orange-300" aria-hidden />
+        <div className={cn(ed.surfaceInner, 'flex items-center gap-2 px-4 py-6 text-sm', ed.textSub)}>
+          <Loader2 className="size-5 shrink-0 animate-spin text-orange-500" aria-hidden />
           {viewMode === 'history'
             ? 'กำลังโหลดแผ่นตามวัน-เวลาที่เลือก…'
             : rollScope === 'homeroom'
@@ -324,18 +325,18 @@ export function ClassroomAttendancePage() {
       ) : null}
 
       {enabled && query.isError ? (
-        <div className="space-y-3 rounded-2xl border border-red-400/40 bg-red-950/45 p-4 text-sm text-red-100 ring-1 ring-red-400/25 backdrop-blur-sm">
-          <p className="font-medium">โหลดข้อมูลไม่สำเร็จ</p>
-          <p className="text-red-100/90">{errorMessage(query.error)}</p>
+        <div className="space-y-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800 ring-1 ring-rose-200/80">
+          <p className="font-medium text-rose-900">โหลดข้อมูลไม่สำเร็จ</p>
+          <p className="text-rose-700">{errorMessage(query.error)}</p>
           {viewMode === 'smart' ? (
-            <p className="text-xs text-red-100/75">
+            <p className="text-xs text-rose-600">
               ลองสลับเป็น &quot;ย้อนหลัง&quot; แล้วเลือกวัน-เวลาใน datetime picker เพื่อโหลดแผ่นย้อนหลัง หรือเปลี่ยนเป็นเช็คชื่อหน้าแถวถ้าคุณเป็นครูประจำชั้น
             </p>
           ) : null}
           <button
             type="button"
             onClick={() => void query.refetch()}
-            className="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-xs font-semibold text-white transition hover:bg-white/15"
+            className={cn(ed.btnSecondary, 'px-3 py-2 text-xs')}
           >
             <RefreshCw className="size-3.5" aria-hidden />
             ลองใหม่
@@ -348,12 +349,12 @@ export function ClassroomAttendancePage() {
           <SmartSessionBanner session={session} viewMode={viewMode} requestedScope={rollScope} />
 
           {saveOk ? (
-            <div className="rounded-2xl border border-emerald-400/35 bg-emerald-950/40 p-3 text-sm text-emerald-100 ring-1 ring-emerald-400/20">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800 ring-1 ring-emerald-200/80">
               {saveOk}
             </div>
           ) : null}
           {saveErr ? (
-            <div className="rounded-2xl border border-red-400/40 bg-red-950/45 p-3 text-sm text-red-100 ring-1 ring-red-400/25">
+            <div className="rounded-2xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800 ring-1 ring-rose-200/80">
               {saveErr}
             </div>
           ) : null}
@@ -361,7 +362,7 @@ export function ClassroomAttendancePage() {
           <LegendStrip />
 
           {session.students.length === 0 ? (
-            <div className="rounded-2xl border border-white/15 bg-slate-950/50 p-8 text-center text-sm text-white/65 ring-1 ring-white/10">
+            <div className={cn(ed.surfaceInner, 'p-8 text-center text-sm', ed.textMuted)}>
               {rollScope === 'homeroom'
                 ? 'ไม่มีรายชื่อห้องนี้ — ตรวจสอบว่าคุณเป็นครูประจำชั้นหรือสิทธิ์การเข้าถึง'
                 : 'ไม่มีรายชื่อในคาบนี้ — ตรวจสอบตารางสอนหรือสิทธิ์ของคุณ'}
@@ -385,13 +386,13 @@ export function ClassroomAttendancePage() {
             </div>
           )}
 
-          <div className="flex flex-col gap-3 rounded-2xl border border-white/12 bg-slate-950/40 p-4 ring-1 ring-white/10 sm:flex-row sm:items-center sm:justify-between">
-            <div className="text-xs leading-relaxed text-white/60">
+          <div className={cn(ed.surface, 'flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between')}>
+            <div className={cn('text-xs leading-relaxed', ed.textSub)}>
               <p>
-                <strong className="text-white/85">Bulk upsert:</strong> ทุกคนเริ่มที่ &quot;มาเรียน&quot;
+                <strong className={ed.text}>Note:</strong> ทุกคนเริ่มที่ &quot;มาเรียน&quot;
                 — แตะการ์ดเพื่อวนสถานะ มา → ขาด → สาย → ลา → โดดเรียน → มา
               </p>
-              <p className="mt-1 text-white/50">
+              <p className={cn('mt-1', ed.textMuted)}>
                 โดดเรียน = เช้ามาเรียน แต่บ่ายหายตัว — ใช้ส่งรายงานฝ่ายกิจการนักเรียน
               </p>
             </div>
@@ -439,44 +440,44 @@ function SmartSessionBanner({
   })()
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-slate-900/80 via-slate-950/80 to-slate-900/70 p-4 ring-1 ring-white/10 sm:p-5">
+    <div className={cn(ed.surface, 'overflow-hidden bg-gradient-to-br from-slate-50 via-white to-sky-50/40 p-4 sm:p-5')}>
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 space-y-1">
           <p
             className={cn(
               'text-[11px] font-semibold uppercase tracking-[0.12em]',
-              isHomeroom ? 'text-teal-200/90' : 'text-orange-200/90',
+              isHomeroom ? 'text-teal-700' : 'text-orange-700',
             )}
           >
             {kicker}
           </p>
-          <p className="text-lg font-semibold tracking-tight text-white sm:text-xl">{session.classLabel}</p>
+          <p className={cn(ed.sectionTitle, 'sm:text-xl')}>{session.classLabel}</p>
           {isHomeroom ? (
-            <p className="text-sm text-white/75">
+            <p className={ed.sectionLead}>
               {session.periodLabel ? (
-                <span className="text-white/85">{session.periodLabel}</span>
+                <span className={ed.text}>{session.periodLabel}</span>
               ) : (
                 <span>รายชื่อห้องเรียน · ไม่ผูกวิชารายคาบ</span>
               )}
             </p>
           ) : session.subjectName ? (
-            <p className="text-sm text-white/80">
-              วิชา <span className="font-medium text-white">{session.subjectName}</span>
+            <p className={ed.sectionLead}>
+              วิชา <span className={cn('font-medium', ed.text)}>{session.subjectName}</span>
               {session.periodLabel ? (
                 <>
                   {' '}
-                  · <span className="text-white/90">{session.periodLabel}</span>
+                  · <span className={ed.text}>{session.periodLabel}</span>
                 </>
               ) : null}
             </p>
           ) : session.periodLabel ? (
-            <p className="text-sm text-white/80">{session.periodLabel}</p>
+            <p className={ed.sectionLead}>{session.periodLabel}</p>
           ) : null}
-          {range ? <p className="text-xs tabular-nums text-white/55">{range}</p> : null}
+          {range ? <p className={cn('text-xs tabular-nums', ed.textMuted)}>{range}</p> : null}
         </div>
-        <div className="shrink-0 rounded-2xl border border-white/15 bg-white/5 px-3 py-2 text-right">
-          <p className="text-[10px] font-medium uppercase tracking-wide text-white/45">วันที่ข้อมูล</p>
-          <p className="text-sm font-semibold tabular-nums text-white">{session.sessionDate}</p>
+        <div className={cn(ed.surfaceInner, 'shrink-0 px-3 py-2 text-right')}>
+          <p className={ed.labelCaps}>วันที่ข้อมูล</p>
+          <p className={cn('text-sm font-semibold tabular-nums', ed.text)}>{session.sessionDate}</p>
         </div>
       </div>
     </div>
@@ -492,11 +493,14 @@ function LegendStrip() {
     { s: 'cut_class', label: 'โดดเรียน', hint: 'เช้ามา / บ่ายหาย' },
   ]
   return (
-    <div className="flex flex-wrap gap-2 rounded-2xl border border-white/10 bg-slate-950/35 p-3 ring-1 ring-white/10">
+    <div className={cn(ed.surfaceInner, 'flex flex-wrap gap-2 p-3')}>
       {items.map(({ s, label, hint }) => (
         <div
           key={s}
-          className="flex min-w-0 items-center gap-2 rounded-xl border border-white/10 bg-slate-900/40 px-2.5 py-1.5 text-xs text-white/85"
+          className={cn(
+            'flex min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs',
+            ed.textSub,
+          )}
         >
           <span
             className={cn(
@@ -510,7 +514,7 @@ function LegendStrip() {
             aria-hidden
           />
           <span className="font-semibold">{label}</span>
-          <span className="truncate text-white/45">· {hint}</span>
+          <span className={cn('truncate', ed.textMuted)}>· {hint}</span>
         </div>
       ))}
     </div>

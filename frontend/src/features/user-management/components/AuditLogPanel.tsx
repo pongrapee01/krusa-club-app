@@ -1,6 +1,8 @@
 import { useUserManagementAudit } from '@/features/user-management/audit/useUserManagementAudit'
 import type { AuditAction } from '@/features/user-management/types'
 import { formatThaiDateTime } from '@/features/user-management/lib/formatDate'
+import { ed } from '@/lib/edtech-ui'
+import { cn } from '@/lib/utils'
 
 const actionLabel: Record<AuditAction, string> = {
   create: 'สร้าง',
@@ -18,26 +20,24 @@ export function AuditLogPanel() {
 
   if (!entries.length) {
     return (
-      <div className="rounded-xl border border-white/10 bg-slate-950/25 px-3 py-2 text-xs text-white/55">
+      <div className={cn(ed.surfaceInner, 'px-3 py-2 text-xs text-slate-500')}>
         Audit log จะแสดงเมื่อมีการกระทำสำคัญในโมดูลนี้ (mock — เชื่อม API ภายหลัง)
       </div>
     )
   }
 
   return (
-    <div className="rounded-xl border border-white/10 bg-slate-950/35">
-      <p className="border-b border-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-white/70">
-        Audit log (ล่าสุด)
-      </p>
-      <ul className="max-h-40 divide-y divide-white/[0.06] overflow-y-auto text-xs">
+    <div className={cn(ed.surfaceSoft, 'overflow-hidden p-0')}>
+      <p className={cn('border-b border-slate-200 px-3 py-2', ed.labelCaps)}>Audit log (ล่าสุด)</p>
+      <ul className="max-h-40 divide-y divide-slate-100 overflow-y-auto text-xs">
         {entries.map((e) => (
-          <li key={e.id} className="px-3 py-2 text-white/80">
-            <span className="text-white/50">{formatThaiDateTime(e.at)}</span>
-            <span className="mx-1.5 text-white/35">·</span>
-            <span className="font-medium text-orange-200/95">{actionLabel[e.action]}</span>
-            <span className="mx-1.5 text-white/35">—</span>
+          <li key={e.id} className="px-3 py-2 text-slate-700">
+            <span className="text-slate-500">{formatThaiDateTime(e.at)}</span>
+            <span className="mx-1.5 text-slate-300">·</span>
+            <span className="font-medium text-blue-700">{actionLabel[e.action]}</span>
+            <span className="mx-1.5 text-slate-300">—</span>
             <span>{e.target}</span>
-            {e.detail ? <span className="mt-0.5 block text-white/55">{e.detail}</span> : null}
+            {e.detail ? <span className="mt-0.5 block text-slate-500">{e.detail}</span> : null}
           </li>
         ))}
       </ul>

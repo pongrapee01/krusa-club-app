@@ -10,6 +10,7 @@ import {
   roleLabels,
 } from '@/features/user-management/mock/permissions-matrix'
 import type { PermissionKey, PermissionMatrix, RoleId } from '@/features/user-management/types'
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 
 function cloneMatrix(m: PermissionMatrix): PermissionMatrix {
@@ -53,20 +54,16 @@ export function RolesPermissionsPage() {
   }
 
   return (
-    <section className="space-y-5">
+    <section className="space-y-6">
       <header className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Roles & Permissions</h1>
-          <p className="max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
+          <h1 className={ed.pageTitle}>Roles & Permissions</h1>
+          <p className={ed.pageLead}>
             ตารางสิทธิ์ Role × Permission — ใช้ mock ใน state ก่อนเชื่อม API จริง (รองรับ Parent / Multi-school ในอนาคตด้วยการขยายแถว/คอลัมน์)
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={reset}
-            className="h-11 rounded-full px-4 text-sm font-medium text-white ring-1 ring-white/25 hover:bg-white/10"
-          >
+        <div className="flex flex-wrap gap-3">
+          <button type="button" onClick={reset} className={ed.btnSecondary}>
             รีเซ็ต
           </button>
           <button
@@ -74,10 +71,8 @@ export function RolesPermissionsPage() {
             disabled={!dirty}
             onClick={save}
             className={cn(
-              'inline-flex h-11 items-center justify-center gap-2 rounded-full px-5 text-sm font-semibold ring-1 transition',
-              dirty
-                ? 'bg-orange-600 text-white ring-orange-400/45 hover:bg-orange-500'
-                : 'cursor-not-allowed bg-white/10 text-white/45 ring-white/10',
+              ed.btnPrimary,
+              'gap-2 disabled:cursor-not-allowed disabled:opacity-45',
             )}
           >
             <Save className="size-4" aria-hidden />
@@ -86,48 +81,49 @@ export function RolesPermissionsPage() {
         </div>
       </header>
 
-      <div className="rounded-2xl border border-white/10 bg-slate-950/35 p-4 shadow-lg shadow-black/25">
-        <div className="mb-4 flex items-start gap-3 rounded-xl border border-sky-400/25 bg-sky-500/10 p-3 text-sm text-sky-50/95">
-          <Shield className="mt-0.5 size-5 shrink-0 text-sky-200" aria-hidden />
+      <div className={cn(ed.surface, 'p-4 sm:p-5')}>
+        <div className="mb-4 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-3 text-sm text-slate-700">
+          <Shield className="mt-0.5 size-5 shrink-0 text-blue-600" aria-hidden />
           <p className="leading-relaxed">
             การเปลี่ยนแปลงสิทธิ์ควรบันทึก audit ทุกครั้ง และควรแยก scope โรงเรียน (school_id) เมื่อรองรับหลายโรงเรียน
           </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[720px] border-collapse text-left text-sm">
-            <thead>
-              <tr className="border-b border-white/10 bg-white/[0.04]">
-                <th className="px-3 py-3 text-xs font-semibold uppercase tracking-wide text-white/70">Permission</th>
-                {roleColumnOrder.map((role) => (
-                  <th
-                    key={role}
-                    className="px-3 py-3 text-center text-xs font-semibold uppercase tracking-wide text-white/70"
-                  >
-                    {roleLabels[role]}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-white/[0.06]">
-              {permissionRowOrder.map((perm) => (
-                <tr key={perm} className="hover:bg-white/[0.03]">
-                  <td className="px-3 py-2.5 text-white/90">{permissionLabels[perm]}</td>
+        <div className={ed.tableWrap}>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[720px] border-collapse text-left text-sm">
+              <thead>
+                <tr className={ed.tableHead}>
+                  <th className={ed.tableHeadCell}>Permission</th>
                   {roleColumnOrder.map((role) => (
-                    <td key={role} className="px-3 py-2.5 text-center">
-                      <input
-                        type="checkbox"
-                        className="size-4 rounded border-white/30 bg-slate-950 text-orange-500 focus:ring-orange-400"
-                        checked={matrix[perm][role]}
-                        onChange={() => toggle(perm, role)}
-                        aria-label={`${permissionLabels[perm]} — ${roleLabels[role]}`}
-                      />
-                    </td>
+                    <th key={role} className={cn(ed.tableHeadCell, 'text-center')}>
+                      {roleLabels[role]}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {permissionRowOrder.map((perm) => (
+                  <tr key={perm} className={ed.tableRow}>
+                    <td className={cn(ed.tableCell, 'font-medium text-slate-800')}>
+                      {permissionLabels[perm]}
+                    </td>
+                    {roleColumnOrder.map((role) => (
+                      <td key={role} className="px-3 py-2.5 text-center">
+                        <input
+                          type="checkbox"
+                          className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-400/40"
+                          checked={matrix[perm][role]}
+                          onChange={() => toggle(perm, role)}
+                          aria-label={`${permissionLabels[perm]} — ${roleLabels[role]}`}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </section>

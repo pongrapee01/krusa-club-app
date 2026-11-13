@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom'
 import { z } from 'zod'
 
 import logo from '@/assets/logo.png'
+import { ed } from '@/lib/edtech-ui'
 import { supabase } from '@/lib/supabase/client'
+import { cn } from '@/lib/utils'
 
 const RegisterSchema = z
   .object({
@@ -76,41 +78,43 @@ export function RegisterPage() {
     )
   })
 
+  const fieldClass = cn(ed.input, 'h-12 px-4')
+
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="flex flex-wrap items-center gap-2">
-        <Link
-          to="/"
-          className="inline-flex min-h-[44px] items-center gap-2 rounded-xl px-3 text-sm font-medium text-white/85 ring-1 ring-white/20 transition-colors hover:bg-white/10 hover:text-white"
-        >
+        <Link to="/" className={cn(ed.btnGhost, 'min-h-[44px] gap-2 no-underline')}>
           <ArrowLeft className="size-4 shrink-0" aria-hidden />
           หน้าแรก
         </Link>
       </div>
 
       <div className="flex items-center gap-3 sm:gap-4">
-        <div className="shrink-0 rounded-2xl border border-white/20 bg-white/10 p-2.5 shadow-lg shadow-black/30 backdrop-blur-md">
+        <div className="shrink-0 rounded-2xl border border-blue-100 bg-white p-2.5 shadow-sm ring-4 ring-blue-50/80">
           <img
             src={logo}
             alt="Krusa Club"
             className="block h-10 w-auto max-w-[min(150px,42vw)] object-contain object-left sm:h-12"
           />
         </div>
-        <div className="min-w-0 flex-1 space-y-1 border-l border-white/25 pl-3 sm:pl-4">
-          <h1 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">ลงทะเบียน</h1>
-          <p className="text-xs text-white/80 sm:text-sm">กรอกชื่อและสร้างบัญชีด้วยอีเมลกับรหัสผ่าน</p>
+        <div className="min-w-0 flex-1 space-y-1 border-l border-slate-200 pl-3 sm:pl-4">
+          <h1 className="text-xl font-semibold tracking-tight text-slate-900 sm:text-2xl">ลงทะเบียน</h1>
+          <p className="text-xs text-slate-500 sm:text-sm">กรอกชื่อและสร้างบัญชีด้วยอีเมลกับรหัสผ่าน</p>
         </div>
       </div>
 
       <form
         onSubmit={onSubmit}
-        className="space-y-4 rounded-2xl border border-white/20 bg-slate-950/55 p-4 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.45)] ring-1 ring-white/10 backdrop-blur-md sm:rounded-3xl sm:p-6"
+        className={cn(
+          ed.surface,
+          'space-y-4 p-4 sm:rounded-3xl sm:p-6',
+        )}
         noValidate
       >
         <div
           role="tablist"
           aria-label="ขั้นตอนลงทะเบียน"
-          className="flex gap-1 rounded-2xl border border-white/15 bg-slate-900/50 p-1 ring-1 ring-white/10"
+          className="flex gap-1 rounded-2xl border border-slate-200 bg-slate-50/90 p-1"
         >
           <button
             type="button"
@@ -121,8 +125,8 @@ export function RegisterPage() {
             onClick={() => setActiveTab('profile')}
             className={
               activeTab === 'profile'
-                ? 'flex-1 rounded-xl bg-sky-500/90 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-sky-950/30'
-                : 'flex-1 rounded-xl py-2.5 text-center text-sm font-medium text-white/75 transition-colors hover:bg-white/10 hover:text-white'
+                ? 'flex-1 rounded-xl bg-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm shadow-blue-600/20'
+                : 'flex-1 rounded-xl py-2.5 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-900'
             }
           >
             ข้อมูลส่วนตัว
@@ -136,8 +140,8 @@ export function RegisterPage() {
             onClick={() => void goToAccount()}
             className={
               activeTab === 'account'
-                ? 'flex-1 rounded-xl bg-sky-500/90 py-2.5 text-center text-sm font-semibold text-white shadow-md shadow-sky-950/30'
-                : 'flex-1 rounded-xl py-2.5 text-center text-sm font-medium text-white/75 transition-colors hover:bg-white/10 hover:text-white'
+                ? 'flex-1 rounded-xl bg-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm shadow-blue-600/20'
+                : 'flex-1 rounded-xl py-2.5 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-900'
             }
           >
             บัญชี
@@ -151,44 +155,48 @@ export function RegisterPage() {
           hidden={activeTab !== 'profile'}
           className="space-y-4"
         >
-          <div className="space-y-1.5">
-            <label htmlFor="register-first-name" className="text-sm text-white/90">
+          <div className="space-y-2">
+            <label htmlFor="register-first-name" className={ed.label}>
               ชื่อ (First name)
             </label>
             <input
               id="register-first-name"
               type="text"
               autoComplete="given-name"
-              className="h-11 w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 text-sm text-white shadow-inner outline-none ring-1 ring-white/10 transition placeholder:text-white/40 focus:border-orange-400/70 focus:ring-2 focus:ring-orange-400/50"
+              className={fieldClass}
               placeholder="ชื่อ"
               {...register('firstName')}
             />
             {errors.firstName && (
-              <p className="text-xs text-red-300">{errors.firstName.message}</p>
+              <p className="text-xs text-rose-600" role="alert">
+                {errors.firstName.message}
+              </p>
             )}
           </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="register-last-name" className="text-sm text-white/90">
+          <div className="space-y-2">
+            <label htmlFor="register-last-name" className={ed.label}>
               นามสกุล (Last name)
             </label>
             <input
               id="register-last-name"
               type="text"
               autoComplete="family-name"
-              className="h-11 w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 text-sm text-white shadow-inner outline-none ring-1 ring-white/10 transition placeholder:text-white/40 focus:border-orange-400/70 focus:ring-2 focus:ring-orange-400/50"
+              className={fieldClass}
               placeholder="นามสกุล"
               {...register('lastName')}
             />
             {errors.lastName && (
-              <p className="text-xs text-red-300">{errors.lastName.message}</p>
+              <p className="text-xs text-rose-600" role="alert">
+                {errors.lastName.message}
+              </p>
             )}
           </div>
 
           <button
             type="button"
             onClick={() => void goToAccount()}
-            className="inline-flex h-12 w-full items-center justify-center rounded-full border border-white/25 bg-white/10 px-5 text-sm font-semibold text-white shadow-inner transition-colors hover:bg-white/15 active:bg-white/20 sm:w-auto"
+            className={cn(ed.btnSecondary, 'h-12 w-full sm:w-auto')}
           >
             ถัดไป — ตั้งค่าบัญชี
           </button>
@@ -201,60 +209,73 @@ export function RegisterPage() {
           hidden={activeTab !== 'account'}
           className="space-y-4"
         >
-          <div className="space-y-1.5">
-            <label htmlFor="register-email" className="text-sm text-white/90">
+          <div className="space-y-2">
+            <label htmlFor="register-email" className={ed.label}>
               Email/เบอร์โทรศัพท์
             </label>
             <input
               id="register-email"
               type="email"
               autoComplete="email"
-              className="h-11 w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 text-sm text-white shadow-inner outline-none ring-1 ring-white/10 transition placeholder:text-white/40 focus:border-orange-400/70 focus:ring-2 focus:ring-orange-400/50"
+              className={fieldClass}
               placeholder="you@school.ac.th"
               {...register('email')}
             />
-            {errors.email && <p className="text-xs text-red-300">{errors.email.message}</p>}
+            {errors.email ? (
+              <p className="text-xs text-rose-600" role="alert">
+                {errors.email.message}
+              </p>
+            ) : null}
           </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="register-password" className="text-sm text-white/90">
+          <div className="space-y-2">
+            <label htmlFor="register-password" className={ed.label}>
               Password
             </label>
             <input
               id="register-password"
               type="password"
               autoComplete="new-password"
-              className="h-11 w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 text-sm text-white shadow-inner outline-none ring-1 ring-white/10 transition placeholder:text-white/40 focus:border-orange-400/70 focus:ring-2 focus:ring-orange-400/50"
+              className={fieldClass}
               {...register('password')}
             />
-            {errors.password && <p className="text-xs text-red-300">{errors.password.message}</p>}
+            {errors.password ? (
+              <p className="text-xs text-rose-600" role="alert">
+                {errors.password.message}
+              </p>
+            ) : null}
           </div>
 
-          <div className="space-y-1.5">
-            <label htmlFor="register-confirm" className="text-sm text-white/90">
+          <div className="space-y-2">
+            <label htmlFor="register-confirm" className={ed.label}>
               ยืนยันรหัสผ่าน
             </label>
             <input
               id="register-confirm"
               type="password"
               autoComplete="new-password"
-              className="h-11 w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 text-sm text-white shadow-inner outline-none ring-1 ring-white/10 transition placeholder:text-white/40 focus:border-orange-400/70 focus:ring-2 focus:ring-orange-400/50"
+              className={fieldClass}
               {...register('confirmPassword')}
             />
             {errors.confirmPassword && (
-              <p className="text-xs text-red-300">{errors.confirmPassword.message}</p>
+              <p className="text-xs text-rose-600" role="alert">
+                {errors.confirmPassword.message}
+              </p>
             )}
           </div>
         </div>
 
         {serverError && (
-          <div className="rounded-2xl border border-red-400/40 bg-red-950/50 p-3 text-sm text-red-200 shadow-inner backdrop-blur-sm">
+          <div
+            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+            role="alert"
+          >
             {serverError}
           </div>
         )}
 
         {successMessage && (
-          <div className="rounded-2xl border border-emerald-400/35 bg-emerald-950/40 p-3 text-sm text-emerald-100 shadow-inner backdrop-blur-sm">
+          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
             {successMessage}
           </div>
         )}
@@ -265,32 +286,36 @@ export function RegisterPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab('profile')}
-                className="inline-flex h-12 min-w-[8rem] items-center justify-center rounded-full border border-white/25 bg-transparent px-5 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10"
+                className={cn(ed.btnSecondary, 'h-12 min-w-[8rem]')}
               >
                 กลับ
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex h-12 min-w-[10rem] flex-1 items-center justify-center rounded-full border border-sky-400/50 bg-sky-500 px-5 text-sm font-semibold text-white shadow-md shadow-sky-950/40 transition-colors hover:bg-sky-400 active:bg-sky-600 disabled:pointer-events-none disabled:opacity-55 sm:flex-initial"
+                className={cn(
+                  ed.btnPrimary,
+                  'h-12 min-w-[10rem] flex-1 disabled:pointer-events-none disabled:opacity-55 sm:flex-initial',
+                )}
               >
                 {isSubmitting ? 'กำลังลงทะเบียน...' : 'ลงทะเบียน'}
               </button>
             </div>
           ) : (
-            <p className="text-center text-sm text-white/60 sm:text-left">
-              เริ่มจากแท็บ <span className="text-white/85">ข้อมูลส่วนตัว</span> แล้วไปตั้งรหัสที่แท็บ{' '}
-              <span className="text-white/85">บัญชี</span>
+            <p className={cn('text-center text-sm sm:text-left', ed.textMuted)}>
+              เริ่มจากแท็บ <span className={ed.textSub}>ข้อมูลส่วนตัว</span> แล้วไปตั้งรหัสที่แท็บ{' '}
+              <span className={ed.textSub}>บัญชี</span>
             </p>
           )}
           <p
-            className={`text-center text-sm text-white/75 sm:text-left ${activeTab === 'account' ? 'sm:ml-auto' : ''}`}
+            className={cn(
+              'text-center text-sm sm:text-left',
+              ed.textSub,
+              activeTab === 'account' ? 'sm:ml-auto' : '',
+            )}
           >
             มีบัญชีแล้ว?{' '}
-            <Link
-              to="/login"
-              className="font-semibold text-orange-400 underline-offset-2 hover:text-orange-300 hover:underline"
-            >
+            <Link to="/login" className={cn('font-semibold', ed.textLink)}>
               เข้าสู่ระบบ
             </Link>
           </p>

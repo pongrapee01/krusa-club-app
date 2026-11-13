@@ -24,6 +24,7 @@ import {
   fetchStudentTitleMaster,
   type StudentMasterOption,
 } from '@/services/studentMasterService'
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 
 /** รวมค่าที่มีในฟอร์มแต่ยังไม่อยู่ใน master (เช่น ข้อมูลเก่า) เพื่อให้ dropdown แสดงได้ */
@@ -132,10 +133,8 @@ export type UserFormModalProps =
       onSave: (values: LoginAccountFormValues) => void
     }
 
-const inputClass =
-  'mt-1 w-full rounded-xl border border-white/15 bg-slate-950/60 px-3 py-2 text-sm text-white placeholder:text-white/35 focus-visible:border-orange-400/55 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/35 disabled:cursor-not-allowed disabled:opacity-60'
-
-const labelClass = 'text-xs font-medium text-white/70'
+const inputClass = cn(ed.input, 'mt-1 py-2 disabled:cursor-not-allowed disabled:opacity-60')
+const labelClass = ed.label
 
 function studentToForm(s: StudentRow): StudentFormValues {
   return {
@@ -428,7 +427,7 @@ function StudentFormModalInner({
           <button
             type="button"
             onClick={onClose}
-            className="h-10 rounded-xl px-4 text-sm font-medium text-white ring-1 ring-white/25 hover:bg-white/10"
+            className={ed.btnSecondary}
           >
             ปิด
           </button>
@@ -437,10 +436,9 @@ function StudentFormModalInner({
               type="submit"
               disabled={!masterReady}
               className={cn(
-                'h-10 rounded-xl px-4 text-sm font-semibold ring-1 transition',
-                masterReady
-                  ? 'bg-orange-600 text-white ring-orange-400/50 hover:bg-orange-500'
-                  : 'cursor-not-allowed bg-white/10 text-white/45 ring-white/10',
+                ed.btnPrimary,
+                'disabled:cursor-not-allowed disabled:opacity-45',
+                !masterReady && 'pointer-events-none opacity-45',
               )}
             >
               บันทึก
@@ -533,14 +531,14 @@ function TeacherFormModalInner({
           <button
             type="button"
             onClick={onClose}
-            className="h-10 rounded-xl px-4 text-sm font-medium text-white ring-1 ring-white/25 hover:bg-white/10"
+            className={ed.btnSecondary}
           >
             ปิด
           </button>
           {!readOnly ? (
             <button
               type="submit"
-              className="h-10 rounded-xl bg-orange-600 px-4 text-sm font-semibold text-white ring-1 ring-orange-400/50 hover:bg-orange-500"
+              className={ed.btnPrimary}
             >
               บันทึก
             </button>
@@ -696,7 +694,7 @@ function AccountFormModalInner({
           </select>
         </Field>
         <Field label="Require password change on first login" className="sm:col-span-2">
-          <label className="mt-1 flex items-center gap-2 text-sm text-white/85">
+          <label className="mt-1 flex items-center gap-2 text-sm text-slate-700">
             <input type="checkbox" disabled={readOnly} {...form.register('requirePasswordChange')} />
             บังคับเปลี่ยนรหัสเมื่อเข้าครั้งแรก
           </label>
@@ -705,14 +703,14 @@ function AccountFormModalInner({
           <button
             type="button"
             onClick={onClose}
-            className="h-10 rounded-xl px-4 text-sm font-medium text-white ring-1 ring-white/25 hover:bg-white/10"
+            className={ed.btnSecondary}
           >
             ปิด
           </button>
           {!readOnly ? (
             <button
               type="submit"
-              className="h-10 rounded-xl bg-orange-600 px-4 text-sm font-semibold text-white ring-1 ring-orange-400/50 hover:bg-orange-500"
+              className={ed.btnPrimary}
             >
               บันทึก
             </button>
@@ -739,7 +737,7 @@ function ModalChrome({
       <button
         type="button"
         aria-label="ปิด"
-        className="fixed inset-0 cursor-default bg-slate-950/60 backdrop-blur-[2px]"
+        className="fixed inset-0 cursor-default bg-slate-900/25 backdrop-blur-[2px]"
         onClick={onClose}
       />
       <div
@@ -748,16 +746,16 @@ function ModalChrome({
         aria-labelledby={titleId}
         className="relative z-10 mx-auto flex min-h-[100dvh] w-full max-w-2xl items-center px-3 py-8 sm:px-4"
       >
-        <div className="w-full rounded-2xl border border-white/15 bg-slate-950/95 p-5 shadow-2xl shadow-black/50 backdrop-blur-md sm:p-6">
+        <div className={cn(ed.surface, 'w-full p-5 sm:p-6')}>
           <div className="mb-4 flex items-start justify-between gap-3">
-            <h2 id={titleId} className="text-lg font-semibold text-white sm:text-xl">
+            <h2 id={titleId} className="text-lg font-semibold text-slate-900 sm:text-xl">
               {title}
             </h2>
             <button
               type="button"
               aria-label="ปิด"
               onClick={onClose}
-              className="rounded-lg p-2 text-white/80 ring-1 ring-white/20 hover:bg-white/10"
+              className={ed.btnGhost}
             >
               <X className="size-5" />
             </button>

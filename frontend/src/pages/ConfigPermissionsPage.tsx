@@ -1,9 +1,11 @@
+import { ed } from '@/lib/edtech-ui'
+
 export function ConfigPermissionsPage() {
   return (
-    <section className="space-y-3">
-      <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">Permission</h1>
-      <p className="text-sm leading-relaxed text-white/85 sm:text-base">
-        หน้าจัดการสิทธิ์การเข้าถึงของผู้ใช้และบทบาท (role) เพื่อควบคุมการใช้งานเมนูและฟีเจอร์
+    <section className="space-y-4">
+      <h1 className={ed.pageTitle}>Permission</h1>
+      <p className={ed.pageLead}>
+        กำหนดบทบาทและสิทธิ์การเข้าถึง — เนื้อหาจริงจะเชื่อมกับ API ในขั้นถัดไป
       </p>
     </section>
   )

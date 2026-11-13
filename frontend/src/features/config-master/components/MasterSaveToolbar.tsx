@@ -1,5 +1,6 @@
 import { Loader2, RotateCcw, Save } from 'lucide-react'
 
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 
 type MasterSaveToolbarProps = {
@@ -22,17 +23,17 @@ export function MasterSaveToolbar({
   return (
     <div
       className={cn(
-        'mt-4 flex flex-col gap-3 border-t border-white/10 pt-4 sm:flex-row sm:items-center sm:justify-between',
+        'mt-6 flex flex-col gap-4 border-t border-slate-200 pt-5 sm:flex-row sm:items-center sm:justify-between',
       )}
     >
-      <div className="min-w-0 text-sm text-white/75">
+      <div className="min-w-0 text-sm text-slate-600">
         {isDirty ? (
           <span>
-            มีการแก้ไขใน <strong className="text-orange-200">{sectionLabel}</strong> — กด
+            มีการแก้ไขใน <strong className="text-blue-700">{sectionLabel}</strong> — กด
             &quot;บันทึกทั้งหมด&quot; เพื่อส่งกลุ่มนี้ขึ้นระบบ
           </span>
         ) : (
-          <span className="text-white/55">
+          <span className="text-slate-500">
             ไม่มีการเปลี่ยนแปลงใน {sectionLabel} ที่ยังไม่ได้บันทึก
           </span>
         )}
@@ -40,7 +41,7 @@ export function MasterSaveToolbar({
           <p
             className={cn(
               'mt-1 text-xs',
-              saveMessage.tone === 'ok' ? 'text-emerald-300' : 'text-rose-300',
+              saveMessage.tone === 'ok' ? 'text-emerald-600' : 'text-rose-600',
             )}
             role="status"
           >
@@ -48,11 +49,11 @@ export function MasterSaveToolbar({
           </p>
         ) : null}
       </div>
-      <div className="flex shrink-0 flex-wrap gap-2">
+      <div className="flex shrink-0 flex-wrap gap-3">
         <button
           type="button"
           disabled={!isDirty || saving}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-full px-4 text-sm font-medium text-white ring-1 ring-white/20 transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-45"
+          className={cn(ed.btnSecondary, 'h-11 disabled:cursor-not-allowed disabled:opacity-45')}
           onClick={onDiscard}
         >
           <RotateCcw className="size-4" aria-hidden />
@@ -61,7 +62,10 @@ export function MasterSaveToolbar({
         <button
           type="button"
           disabled={!isDirty || saving}
-          className="inline-flex h-11 min-w-[11rem] items-center justify-center gap-2 rounded-full border border-orange-400/50 bg-orange-600 px-5 text-sm font-semibold text-white shadow-md shadow-orange-950/35 ring-1 ring-orange-400/45 transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-45"
+          className={cn(
+            ed.btnPrimary,
+            'h-11 min-w-[11rem] disabled:cursor-not-allowed disabled:opacity-45',
+          )}
           onClick={onSaveSection}
         >
           {saving ? (

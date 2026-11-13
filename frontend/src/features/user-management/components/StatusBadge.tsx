@@ -5,11 +5,11 @@ import type { AccountStatus, EntityStatus } from '@/features/user-management/typ
 type BadgeVariant = EntityStatus | AccountStatus | 'neutral'
 
 const styles: Record<BadgeVariant, string> = {
-  active: 'bg-emerald-500/20 text-emerald-100 ring-emerald-400/40',
-  inactive: 'bg-white/10 text-white/75 ring-white/20',
-  locked: 'bg-amber-500/20 text-amber-100 ring-amber-400/45',
-  disabled: 'bg-rose-500/20 text-rose-100 ring-rose-400/45',
-  neutral: 'bg-slate-500/25 text-white/85 ring-white/15',
+  active: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+  inactive: 'bg-slate-100 text-slate-600 ring-slate-200',
+  locked: 'bg-amber-50 text-amber-800 ring-amber-200',
+  disabled: 'bg-rose-50 text-rose-700 ring-rose-200',
+  neutral: 'bg-slate-100 text-slate-600 ring-slate-200',
 }
 
 const labels: Record<BadgeVariant, string> = {
@@ -23,7 +23,6 @@ const labels: Record<BadgeVariant, string> = {
 type StatusBadgeProps = {
   status: BadgeVariant
   className?: string
-  /** แสดงข้อความภาษาไทยเพิ่มเติม เช่น เหตุผลล็อก */
   subtitle?: string
 }
 
@@ -39,7 +38,7 @@ export function StatusBadge({ status, className, subtitle }: StatusBadgeProps) {
       >
         {labels[status] ?? status}
       </span>
-      {subtitle ? <span className="text-[0.65rem] text-white/55">{subtitle}</span> : null}
+      {subtitle ? <span className="text-[0.65rem] text-slate-500">{subtitle}</span> : null}
     </span>
   )
 }

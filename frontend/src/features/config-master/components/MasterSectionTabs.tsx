@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react'
 
 import { getSection, MASTER_SECTION_ORDER } from '@/features/config-master/config/sections'
 import type { MasterKey } from '@/features/config-master/types'
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 
 type MasterSectionTabsProps = {
@@ -31,11 +32,10 @@ export function MasterSectionTabs({
   }, [activeKey])
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/30 shadow-lg shadow-black/20">
-      <div className="relative border-b border-white/10 bg-slate-950/55">
-        {/* บอกให้เลื่อนได้บนจอแคบ (แท็บเป็นแถวเดียว) */}
+    <div className={cn(ed.surface, 'overflow-hidden p-0')}>
+      <div className="relative border-b border-slate-200 bg-slate-50/60">
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-10 bg-gradient-to-l from-slate-950 via-slate-950/80 to-transparent md:block"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 hidden w-10 bg-gradient-to-l from-white via-white/90 to-transparent md:block"
           aria-hidden
         />
         <div
@@ -43,13 +43,11 @@ export function MasterSectionTabs({
           aria-label="กลุ่ม Master Data"
           ref={tablistRef}
           className={cn(
-            'flex gap-1.5 p-2',
-            /* mobile / tablet แคบ: แสดงครบทุกแท็บแบบ wrap */
+            'flex gap-2 p-2',
             'flex-wrap',
-            /* md+: แถบแท็บแนวนอน เลื่อนดูแท็บท้ายได้ */
             'md:flex-nowrap md:gap-0 md:overflow-x-auto md:p-0 md:scroll-smooth',
             'md:[scrollbar-width:thin] md:[&::-webkit-scrollbar]:h-1.5',
-            'md:[&::-webkit-scrollbar-thumb]:rounded-full md:[&::-webkit-scrollbar-thumb]:bg-white/25',
+            'md:[&::-webkit-scrollbar-thumb]:rounded-full md:[&::-webkit-scrollbar-thumb]:bg-slate-300',
             'md:[&::-webkit-scrollbar-track]:bg-transparent',
             'md:pr-8 md:pl-1',
           )}
@@ -70,24 +68,22 @@ export function MasterSectionTabs({
                 onClick={() => onChange(key)}
                 className={cn(
                   'relative shrink-0 text-sm font-medium transition-colors',
-                  'focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400/70',
-                  /* mobile / tablet แคบ: chip ในกริด wrap */
-                  'max-md:rounded-lg max-md:border max-md:px-3 max-md:py-2',
+                  'focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50',
+                  'max-md:rounded-xl max-md:border max-md:px-3 max-md:py-2',
                   isActive
-                    ? 'max-md:border-orange-500/55 max-md:bg-orange-600/25 max-md:text-white'
-                    : 'max-md:border-white/15 max-md:bg-slate-900/50 max-md:text-white/75 max-md:hover:border-white/25 max-md:hover:text-white',
-                  /* md+: underline tab */
+                    ? 'max-md:border-blue-200 max-md:bg-blue-50 max-md:text-blue-700'
+                    : 'max-md:border-slate-200 max-md:bg-white max-md:text-slate-600 max-md:hover:border-slate-300 max-md:hover:bg-slate-50',
                   'md:border-b-2 md:px-4 md:py-3',
                   isActive
-                    ? 'md:-mb-px md:border-b-orange-500 md:bg-slate-950/25 md:text-white'
-                    : 'md:border-b-transparent md:text-white/60 md:hover:border-b-white/20 md:hover:bg-white/[0.04] md:hover:text-white/90',
+                    ? 'md:-mb-px md:border-b-blue-600 md:bg-white md:text-blue-700'
+                    : 'md:border-b-transparent md:text-slate-500 md:hover:border-b-slate-200 md:hover:bg-slate-50/80 md:hover:text-slate-700',
                 )}
               >
                 <span className="inline-flex items-center gap-2 whitespace-nowrap">
                   {getSection(key).label}
                   {dirty ? (
                     <span
-                      className="size-2 shrink-0 rounded-full bg-amber-400 ring-2 ring-slate-950/80"
+                      className="size-2 shrink-0 rounded-full bg-amber-400 ring-2 ring-white"
                       aria-label="มีการแก้ไข"
                     />
                   ) : null}
@@ -102,7 +98,7 @@ export function MasterSectionTabs({
         id={activePanelId}
         role="tabpanel"
         aria-labelledby={`master-tab-${activeKey}`}
-        className="p-4 sm:p-5"
+        className="p-4 sm:p-6"
       >
         {children}
       </div>

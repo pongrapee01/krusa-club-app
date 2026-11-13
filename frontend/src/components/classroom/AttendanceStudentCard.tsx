@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { ed } from '@/lib/edtech-ui'
 import { cn } from '@/lib/utils'
 import { type AttendanceStatus, nextAttendanceStatus } from '@/services/attendanceService'
 
@@ -9,7 +10,7 @@ const STATUS_STRIP: Record<AttendanceStatus, string> = {
   late: 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.35)]',
   leave: 'bg-sky-500 shadow-[0_0_12px_rgba(14,165,233,0.35)]',
   cut_class: 'bg-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.45)]',
-  unknown: 'bg-white/35',
+  unknown: 'bg-slate-300',
 }
 
 const DOT_BG: Record<'present' | 'absent' | 'late' | 'leave' | 'cut_class', string> = {
@@ -68,10 +69,10 @@ export function AttendanceStudentCard({
       className={cn(
         'group relative flex w-full flex-col overflow-hidden rounded-2xl border text-left transition',
         'min-h-[132px] touch-manipulation',
-        'border-white/15 bg-slate-950/55 ring-1 ring-white/10',
-        'hover:border-orange-400/40 hover:bg-slate-900/65 hover:ring-orange-400/25',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950',
-        changed && 'border-orange-400/35 ring-orange-400/20',
+        ed.surface,
+        'hover:border-orange-300 hover:ring-orange-200/60',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
+        changed && 'border-orange-300 ring-1 ring-orange-200/80',
       )}
     >
       <div
@@ -86,16 +87,16 @@ export function AttendanceStudentCard({
               <img
                 src={avatarUrl}
                 alt=""
-                className="size-14 rounded-2xl border border-white/15 object-cover shadow-inner sm:size-16"
+                className="size-14 rounded-2xl border border-slate-200 object-cover shadow-sm sm:size-16"
                 referrerPolicy="no-referrer"
               />
             ) : (
-              <div className="grid size-14 place-items-center rounded-2xl border border-white/15 bg-gradient-to-br from-slate-700/90 to-slate-900/90 text-base font-semibold text-white shadow-inner sm:size-16 sm:text-lg">
+              <div className="grid size-14 place-items-center rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-200 text-base font-semibold text-slate-700 shadow-sm sm:size-16 sm:text-lg">
                 {initials}
               </div>
             )}
             <div
-              className="absolute -bottom-1 -right-1 flex gap-0.5 rounded-full border border-white/20 bg-slate-950/90 px-1 py-0.5"
+              className="absolute -bottom-1 -right-1 flex gap-0.5 rounded-full border border-slate-200 bg-white px-1 py-0.5 shadow-sm"
               aria-hidden
             >
               {(['present', 'absent', 'late', 'leave', 'cut_class'] as const).map((dot) => (
@@ -103,7 +104,7 @@ export function AttendanceStudentCard({
                   key={dot}
                   className={cn(
                     'size-1.5 shrink-0 rounded-full transition-opacity',
-                    dot === effectiveStatus ? cn('opacity-100', DOT_BG[dot]) : 'bg-white/25 opacity-35',
+                    dot === effectiveStatus ? cn('opacity-100', DOT_BG[dot]) : 'bg-slate-200 opacity-50',
                   )}
                 />
               ))}
@@ -111,32 +112,32 @@ export function AttendanceStudentCard({
           </div>
 
           <div className="min-w-0 flex-1 pt-0.5">
-            <p className="line-clamp-2 text-sm font-semibold leading-snug text-white sm:text-[0.95rem]">
+            <p className={cn('line-clamp-2 text-sm font-semibold leading-snug sm:text-[0.95rem]', ed.text)}>
               {displayName}
             </p>
             {seatNumber ? (
-              <p className="mt-1 text-xs font-medium text-white/55">เลขที่ {seatNumber}</p>
+              <p className={cn('mt-1 text-xs font-medium', ed.textMuted)}>เลขที่ {seatNumber}</p>
             ) : (
-              <p className="mt-1 text-xs text-white/40">—</p>
+              <p className={cn('mt-1 text-xs', ed.textHint)}>—</p>
             )}
           </div>
         </div>
 
-        <div className="mt-auto flex items-center justify-between gap-2 border-t border-white/10 pt-2">
+        <div className="mt-auto flex items-center justify-between gap-2 border-t border-slate-100 pt-2">
           <span
             className={cn(
               'inline-flex max-w-[70%] truncate rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset',
-              effectiveStatus === 'present' && 'bg-emerald-500/15 text-emerald-100 ring-emerald-400/30',
-              effectiveStatus === 'absent' && 'bg-rose-500/15 text-rose-100 ring-rose-400/30',
-              effectiveStatus === 'late' && 'bg-amber-500/15 text-amber-100 ring-amber-400/30',
-              effectiveStatus === 'leave' && 'bg-sky-500/15 text-sky-100 ring-sky-400/30',
-              effectiveStatus === 'cut_class' && 'bg-violet-500/15 text-violet-100 ring-violet-400/35',
-              effectiveStatus === 'unknown' && 'bg-white/10 text-white/70 ring-white/15',
+              effectiveStatus === 'present' && 'bg-emerald-50 text-emerald-700 ring-emerald-200',
+              effectiveStatus === 'absent' && 'bg-rose-50 text-rose-700 ring-rose-200',
+              effectiveStatus === 'late' && 'bg-amber-50 text-amber-800 ring-amber-200',
+              effectiveStatus === 'leave' && 'bg-sky-50 text-sky-700 ring-sky-200',
+              effectiveStatus === 'cut_class' && 'bg-violet-50 text-violet-700 ring-violet-200',
+              effectiveStatus === 'unknown' && 'bg-slate-50 text-slate-600 ring-slate-200',
             )}
           >
             {STATUS_LABEL[effectiveStatus]}
           </span>
-          <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-white/35 group-hover:text-orange-200/80">
+          <span className="shrink-0 text-[10px] font-medium uppercase tracking-wide text-slate-400 group-hover:text-orange-600">
             แตะเปลี่ยน
           </span>
         </div>

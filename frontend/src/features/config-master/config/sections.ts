@@ -45,14 +45,14 @@ export const MASTER_SECTIONS: MasterSectionConfig[] = [
     label: 'คำนำหน้าชื่อ',
     description: 'ใช้ในฟอร์มนักเรียน/ครู',
     columns: [
-      { key: 'code', header: 'รหัส' },
+      { key: 'code', header: 'รหัส (EN)' },
       { key: 'label', header: 'คำนำหน้า' },
       { key: 'statusCode', header: 'สถานะ' },
       { key: 'sortOrder', header: 'ลำดับ', className: 'tabular-nums' },
     ],
     fields: [
-      { name: 'code', label: 'รหัส', type: 'text', required: true },
-      { name: 'label', label: 'คำนำหน้า', type: 'text', required: true },
+      { name: 'code', label: 'รหัส (EN / description)', type: 'text', placeholder: 'เช่น Boy' },
+      { name: 'label', label: 'คำนำหน้า (name)', type: 'text', required: true },
       statusField,
       { name: 'sortOrder', label: 'ลำดับ', type: 'number', required: true, min: 0 },
     ],

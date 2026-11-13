@@ -1,2 +1,5 @@
 # Cursor local rules (per-developer)
 .cursorrules
+
+# Markdown
+*.md

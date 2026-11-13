@@ -1,6 +1,8 @@
-# Frontend API Contract (Navigation)
+# Frontend API Contract
 
 เอกสารนี้สรุปรูปแบบ `request` และ `response` สำหรับ Frontend ที่เรียก API ฝั่ง `.NET` โดยใช้ Supabase JWT (Bearer token) อัตโนมัติผ่าน `apiClient`
+
+> **Base URL:** ตั้งใน `VITE_API_BASE_URL` (เช่น `https://localhost:44392/api`) — path ด้านล่างเป็น relative ต่อ base นี้ (`/master/roles` → `…/api/master/roles`)
 
 ## 1) Authentication สำหรับทุก endpoint
 
@@ -255,24 +257,179 @@ type MenuRow = {
 
 
 
-### หัวข้อ Database (supabase) ที่ create table เรียบร้อยแล้ว
-1. Master data
- 1.1 attendance_status (สถานะ ใช้กับการ เช็คชื่อ)
- 1.2 classes (ห้องเรียน เช่น ป.4/1)
- 1.3 menus 
- 1.4 periods (คาบเรียน)
- 1.5 roles 
- 1.6 semesters
- 1.7 subjects (รายวิชา)
- 1.8 system_status (สถานะ ใช้กับ table เช่น row นี้ active/inactive/delete)
- 1.9 titles (คำนำหน้าชื่อ)
- 1.10 user_profiles
+## 8) Config Master Data (`/config/master`)
 
-2. Transaction
- 2.1 attendance_logs
+หน้า **ตั้งค่าข้อมูลระบบ** ใช้ `frontend/src/services/masterDataService.ts` + `masterApiMappers.ts`
 
-3. Mapping/Relational
- 3.1 class_enrollments
- 3.2 role_menus
- 3.3 teaching_schedules
- 3.4 user_roles
+### พฤติกรรม frontend (ปัจจุบัน)
+
+1. **โหลดทีละแท็บ** — กดแท็บใด จึง `GET` endpoint ของแท็บนั้น (`fetchMasterSection`) — cache ด้วย React Query (`staleTime: Infinity`)
+2. **เปิดหน้า** — ใช้ seed ในเครื่องเป็นฐาน **ไม่** เรียก `GET /master/bundle`
+3. **บันทึก** — `PUT` ทั้งชุดเป็น **array** เมื่อกดบันทึกแท็บปัจจุบัน (`saveMasterSection`)
+4. **Response** — รองรับ `T[]` หรือ `{ "data": T[] }`
+5. **แท็บที่ยังไม่เชื่อม API** — แสดง seed + ข้อความเตือน **ไม่** ยิง HTTP (ไม่ใช้ `/master/bundle/{key}`)
+
+> **อย่าใช้บน .NET จริง:** `GET/PUT /master/bundle` และ `GET/PUT /master/bundle/{sectionKey}` — เป็น legacy ของ mock ในเครื่องเท่านั้น (เมื่อไม่ตั้ง `VITE_API_BASE_URL`)
+
+### `statusId` (ทุกตารางที่มีฟิลด์นี้)
+
+| ค่า | UI `statusCode` |
+|-----|-----------------|
+| 1 | `active` |
+| 2 | `inactive` |
+| 3 | `deleted` |
+
+### Endpoint ที่ frontend เชื่อมแล้ว
+
+| แท็บ UI | `MasterKey` | GET | PUT (body = array) |
+|---------|-------------|-----|---------------------|
+| สถานะระบบ | `system_status` | `/master/system-statuses` | `/master/system-statuses` |
+| คำนำหน้า | `titles` | `/master/titles` | `/master/titles` |
+| บทบาท | `roles` | `/master/roles` | `/master/roles` |
+| ภาคเรียน | `semesters` | `/master/semesters` | `/master/semesters` |
+| ชั้นเรียน | `classes` | `/master/classes` | `/master/classes` |
+| คาบเรียน | `periods` | `/master/periods` | `/master/periods` |
+| เมนูระบบ | `menus` | `/master/menus` | `/master/menus` |
+
+### แท็บที่ยังไม่เชื่อม API (รอ path จาก backend)
+
+| แท็บ UI | `MasterKey` | สถานะ |
+|---------|-------------|--------|
+| สถานะเช็คชื่อ | `attendance_status` | seed ในเครื่อง |
+| รายวิชา | `subjects` | seed ในเครื่อง |
+
+### ตัวอย่าง response
+
+**Roles** — `GET /master/roles`
+
+```json
+[
+  {
+    "id": "uuid",
+    "code": "teacher",
+    "name": "ครู",
+    "description": "ครูประจำวิชา",
+    "statusId": 1,
+    "created": "2026-04-29T16:46:07.041745+00:00",
+    "createdBy": null,
+    "modified": null,
+    "modifiedBy": null
+  }
+]
+```
+
+**Titles** — `GET /master/titles`
+
+```json
+[
+  {
+    "id": "uuid",
+    "name": "นาย",
+    "description": "Mr.",
+    "statusId": 1
+  }
+]
+```
+
+แมป UI ↔ API: `label` → `name`, `code` → `description`
+
+**Semesters** — `GET /master/semesters`
+
+```json
+[
+  {
+    "id": "1b046c8a-3a3b-41d7-afe3-dd89bcb39386",
+    "academicYear": "2569",
+    "term": "1",
+    "startDate": "2026-05-16",
+    "endDate": "2026-10-05",
+    "isCurrent": true,
+    "statusId": 1
+  }
+]
+```
+
+แมป UI: `academicYear` string → number, `term` `"1"|"2"` → `1|2`, สร้าง `code`/`label` ใน UI
+
+**Classes** — `GET /master/classes`
+
+```json
+[
+  {
+    "id": "412455cc-ed9f-40ec-8091-60fb308dd70d",
+    "name": "ป.4/1",
+    "level": "ป.4",
+    "statusId": 1
+  }
+]
+```
+
+แมป UI: `name` → `label`, `level` → `gradeLevel`, แยก `room` จาก `name` (หลัง `/`)
+
+**Periods** — `GET /master/periods`
+
+```json
+[
+  {
+    "id": 4,
+    "periodNumber": 0,
+    "startTime": "11:30:00",
+    "endTime": "12:30:00",
+    "periodType": "BREAK",
+    "statusId": 1
+  }
+]
+```
+
+แมป UI: เวลา `HH:mm:ss` → `HH:mm`, `periodType` + `periodNumber` → `label` (เช่น BREAK → "พัก")
+
+**System statuses** — `GET /master/system-statuses`
+
+```json
+[
+  {
+    "id": 1,
+    "name": "ACTIVE",
+    "description": "ใช้งานปกติ"
+  }
+]
+```
+
+แมป UI: `name` (ACTIVE) → `code`/`status` (`active`), `description` → `name` แสดงผล
+
+**Menus** — `GET /master/menus`
+
+```json
+[
+  {
+    "id": "7aad7a0d-58f0-4e27-b031-375a99a6c730",
+    "code": "SIDE_CFG_MASTER",
+    "label": "Master and Data",
+    "parentCode": "TOP_CONFIG",
+    "path": "/config/master",
+    "type": "SIDEBAR",
+    "description": null,
+    "statusId": 1
+  }
+]
+```
+
+แมป UI: `type` `DIVIDER` → `menuType` `divider`, มีลูกใน list → `group`, อื่นๆ → `link`; `PUT` ส่ง `type` เป็น `SIDEBAR` (link/group) หรือ `DIVIDER`; `icon`/`sortOrder`/`matchEnd` เป็นฟิลด์ UI (ไม่ส่ง API)
+
+### ไฟล์อ้างอิง
+
+| ไฟล์ | บทบาท |
+|------|--------|
+| `masterDataService.ts` | GET/PUT ต่อแท็บ, `fetchMasterSection`, `isMasterSectionApiBacked` |
+| `masterApiTypes.ts` | DTO จาก .NET |
+| `masterApiMappers.ts` | แปลง API ↔ แถวในตาราง UI |
+| `features/config-master/` | หน้า `/config/master`, แท็บ, CRUD modal |
+
+---
+
+## 9) หัวข้อ Database (Supabase) — อ้างอิง schema
+
+1. **Master data**
+   - `attendance_status`, `classes`, `menus`, `periods`, `roles`, `semesters`, `subjects`, `system_status`, `titles`, `user_profiles`
+2. **Transaction** — `attendance_logs`
+3. **Mapping** — `class_enrollments`, `role_menus`, `teaching_schedules`, `user_roles`

@@ -9,16 +9,20 @@ import { fetchNavTreeForUser } from '@/services/menuService'
 
 export function NavItemsProvider({ children }: { children: ReactNode }) {
   const [userId, setUserId] = useState<string | null>(null)
+  const [authReady, setAuthReady] = useState(false)
 
   useEffect(() => {
     let mounted = true
     supabase.auth.getSession().then(({ data }) => {
-      if (mounted) setUserId(data.session?.user.id ?? null)
+      if (!mounted) return
+      setUserId(data.session?.user.id ?? null)
+      setAuthReady(true)
     })
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setUserId(session?.user.id ?? null)
+      setAuthReady(true)
     })
     return () => {
       mounted = false
@@ -36,17 +40,18 @@ export function NavItemsProvider({ children }: { children: ReactNode }) {
   })
 
   const value = useMemo(() => {
+    const base = { userId, authReady }
     if (!userId) {
-      return { items: mainNavItems, source: 'static' as const, isLoading: false }
+      return { ...base, items: mainNavItems, source: 'static' as const, isLoading: false }
     }
     if (query.isPending) {
-      return { items: mainNavItems, source: 'static' as const, isLoading: true }
+      return { ...base, items: mainNavItems, source: 'static' as const, isLoading: true }
     }
     if (query.isSuccess && query.data?.length) {
-      return { items: query.data, source: 'remote' as const, isLoading: false }
+      return { ...base, items: query.data, source: 'remote' as const, isLoading: false }
     }
-    return { items: mainNavItems, source: 'static' as const, isLoading: false }
-  }, [userId, query.isPending, query.isSuccess, query.data])
+    return { ...base, items: mainNavItems, source: 'static' as const, isLoading: false }
+  }, [userId, authReady, query.isPending, query.isSuccess, query.data])
 
   return (
     <NavItemsContext.Provider value={value}>{children}</NavItemsContext.Provider>
