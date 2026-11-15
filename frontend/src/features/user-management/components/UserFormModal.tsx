@@ -421,7 +421,7 @@ function StudentFormModalInner({
           <input className={inputClass} disabled={readOnly} {...form.register('guardianPhone')} />
         </Field>
         <Field label="หมายเหตุ" className="sm:col-span-2">
-          <textarea rows={2} className={inputClass} disabled={readOnly} {...form.register('notes')} />
+          <textarea rows={2} className={cn(inputClass, ed.textarea, 'h-auto')} disabled={readOnly} {...form.register('notes')} />
         </Field>
         <div className="flex justify-end gap-2 sm:col-span-2">
           <button
@@ -525,7 +525,7 @@ function TeacherFormModalInner({
           <input className={inputClass} disabled={readOnly} {...form.register('email')} />
         </Field>
         <Field label="หมายเหตุ" className="sm:col-span-2">
-          <textarea rows={2} className={inputClass} disabled={readOnly} {...form.register('notes')} />
+          <textarea rows={2} className={cn(inputClass, ed.textarea, 'h-auto')} disabled={readOnly} {...form.register('notes')} />
         </Field>
         <div className="flex justify-end gap-2 sm:col-span-2">
           <button

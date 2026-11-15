@@ -67,9 +67,9 @@ export function AttendanceStudentCard({
       title={`${displayName} — ${STATUS_LABEL[effectiveStatus]} (กดเพื่อเปลี่ยนเป็น ${STATUS_LABEL[nextAttendanceStatus(effectiveStatus)]})`}
       aria-label={`เช็คชื่อ ${displayName} สถานะ ${STATUS_LABEL[effectiveStatus]} กดเพื่อเปลี่ยน`}
       className={cn(
-        'group relative flex w-full flex-col overflow-hidden rounded-2xl border text-left transition',
+        'group relative flex w-full flex-col overflow-hidden text-left',
         'min-h-[132px] touch-manipulation',
-        ed.surface,
+        ed.surfaceHover,
         'hover:border-orange-300 hover:ring-orange-200/60',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white',
         changed && 'border-orange-300 ring-1 ring-orange-200/80',
@@ -87,11 +87,11 @@ export function AttendanceStudentCard({
               <img
                 src={avatarUrl}
                 alt=""
-                className="size-14 rounded-2xl border border-slate-200 object-cover shadow-sm sm:size-16"
+                className="size-14 rounded-full border-2 border-white object-cover shadow-ed-btn-soft sm:size-16"
                 referrerPolicy="no-referrer"
               />
             ) : (
-              <div className="grid size-14 place-items-center rounded-2xl border border-slate-200 bg-gradient-to-br from-slate-100 to-slate-200 text-base font-semibold text-slate-700 shadow-sm sm:size-16 sm:text-lg">
+              <div className="grid size-14 place-items-center rounded-full border-2 border-white bg-gradient-to-br from-slate-100 to-slate-200 text-base font-semibold text-slate-700 shadow-sm sm:size-16 sm:text-lg">
                 {initials}
               </div>
             )}

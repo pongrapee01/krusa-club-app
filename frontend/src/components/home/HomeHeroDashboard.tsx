@@ -85,14 +85,14 @@ function SlideSchedulePanel() {
         {rows.map((r) => (
           <li
             key={r.subject}
-            className="flex flex-wrap items-center gap-2 rounded-xl border border-slate-100 bg-white px-3 py-2.5"
+            className="flex flex-wrap items-center gap-2 rounded-2xl border border-slate-100 bg-white px-4 py-2.5 shadow-ed-raised"
           >
             <span className={cn('size-2 shrink-0 rounded-full', r.tone)} aria-hidden />
             <div className="min-w-0 flex-1">
               <p className={cn('truncate text-sm font-medium', ed.text)}>{r.subject}</p>
               <p className={cn('truncate text-xs', ed.textSub)}>{r.task}</p>
             </div>
-            <span className="shrink-0 rounded-lg bg-slate-100 px-2 py-1 text-[11px] font-semibold text-slate-700">
+            <span className="shrink-0 rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-700">
               {r.due}
             </span>
           </li>
@@ -121,7 +121,7 @@ function SlideProgressPanel() {
               'conic-gradient(rgb(56 189 248 / 0.95) 0% 72%, rgb(226 232 240) 72% 100%)',
           }}
         >
-          <div className="grid size-[76%] place-items-center rounded-full border border-slate-100 bg-white shadow-sm sm:size-[78%]">
+          <div className="grid size-[76%] place-items-center rounded-full border border-slate-100 bg-white shadow-ed-raised sm:size-[78%]">
             <div className="text-center">
               <p className={cn('text-3xl font-semibold tabular-nums sm:text-4xl', ed.text)}>72%</p>
               <p className={cn('text-[11px]', ed.textMuted)}>เฉลี่ยรายสัปดาห์</p>
@@ -210,7 +210,7 @@ export function HomeHeroDashboard() {
     <section
       className={cn(
         ed.surface,
-        'relative overflow-hidden sm:rounded-3xl',
+        'relative overflow-hidden',
       )}
       aria-labelledby={`${carouselId}-heading`}
       onMouseEnter={() => setPaused(true)}
@@ -234,7 +234,7 @@ export function HomeHeroDashboard() {
       <div className="relative p-4 sm:p-6 lg:p-8">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-slate-50 shadow-sm ring-1 ring-slate-100 sm:size-12">
+            <div className="grid size-11 shrink-0 place-items-center rounded-full border border-white bg-gradient-to-b from-white to-slate-100 shadow-ed-btn-soft ring-1 ring-slate-100 sm:size-12">
               <LayoutDashboard className="size-5 text-sky-600 sm:size-6" aria-hidden />
             </div>
             <div className="min-w-0">
@@ -314,7 +314,7 @@ export function HomeHeroDashboard() {
                 className={cn(
                   'rounded-full px-3 py-1.5 text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400',
                   i === index
-                    ? 'bg-sky-500 text-white shadow-md shadow-sky-600/25'
+                    ? 'bg-gradient-to-b from-sky-400 to-sky-500 text-white shadow-ed-btn'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200',
                 )}
                 onClick={() => setIndex(i)}

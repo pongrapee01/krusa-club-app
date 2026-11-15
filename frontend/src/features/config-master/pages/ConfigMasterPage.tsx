@@ -126,7 +126,7 @@ export function ConfigMasterPage() {
 
   if (bundleQuery.isError) {
     return (
-      <section className="space-y-3 rounded-2xl border border-rose-200 bg-rose-50 p-6">
+      <section className="space-y-3 rounded-[28px] border border-rose-200 bg-rose-50 p-6">
         <h1 className="text-xl font-semibold text-slate-900">เปิดหน้า Master ไม่สำเร็จ</h1>
         <p className="text-sm text-slate-600">ลองรีเฟรชหน้าหรือตรวจการเชื่อมต่อ</p>
       </section>
@@ -139,7 +139,7 @@ export function ConfigMasterPage() {
     <section className="space-y-6 pb-8">
       <header className="space-y-2">
         <div className="flex items-center gap-4">
-          <div className="flex size-12 items-center justify-center rounded-2xl bg-blue-50 ring-1 ring-blue-100">
+          <div className="flex size-12 items-center justify-center rounded-full bg-blue-50 shadow-ed-raised ring-1 ring-blue-100">
             <Database className="size-6 text-blue-600" aria-hidden />
           </div>
           <div>
@@ -158,7 +158,7 @@ export function ConfigMasterPage() {
             กำลังโหลด{activeSection.label}…
           </div>
         ) : sectionLoadFailed ? (
-          <div className="space-y-3 rounded-xl border border-rose-200 bg-rose-50 p-5">
+          <div className="space-y-3 rounded-3xl border border-rose-200 bg-rose-50 p-5">
             <p className="text-sm font-medium text-slate-900">
               โหลด{activeSection.label}ไม่สำเร็จ
             </p>
@@ -174,7 +174,7 @@ export function ConfigMasterPage() {
         ) : activeRows ? (
           <>
             {hasApiBase && !activeApiBacked ? (
-              <p className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+              <p className="mb-4 rounded-3xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
                 แท็บนี้ยังไม่มี endpoint บนเซิร์ฟเวอร์ — แสดงข้อมูลตัวอย่างในเครื่องเท่านั้น (จะไม่เรียก{' '}
                 <code className="text-xs">/master/bundle/…</code>)
               </p>

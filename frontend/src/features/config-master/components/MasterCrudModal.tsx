@@ -169,7 +169,7 @@ function MasterCrudModalInner({
             type="checkbox"
             checked={Boolean(form[f.name])}
             disabled={readOnly}
-            className="size-4 rounded border-slate-300 text-blue-600 focus-visible:ring-blue-400/50"
+            className="size-4 rounded-md border-slate-300 text-blue-600 focus-visible:ring-blue-400/50"
             onChange={(e) => setField(f.name, e.target.checked)}
           />
           {f.label}
@@ -187,7 +187,7 @@ function MasterCrudModalInner({
           <textarea
             rows={3}
             disabled={readOnly}
-            className={cn(inputClass, 'resize-y')}
+            className={cn(inputClass, ed.textarea, 'h-auto resize-y')}
             placeholder={f.placeholder}
             value={String(form[f.name] ?? '')}
             onChange={(e) => setField(f.name, e.target.value)}

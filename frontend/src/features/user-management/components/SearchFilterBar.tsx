@@ -25,7 +25,7 @@ export function SearchFilterBar({
   return (
     <div
       className={cn(
-        'flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-[0_12px_30px_rgba(15,23,42,0.08)] lg:flex-row lg:items-center lg:gap-3',
+        'flex flex-col gap-4 rounded-[28px] border border-white/80 bg-gradient-to-b from-white to-slate-50/70 p-4 shadow-ed-card lg:flex-row lg:items-center lg:gap-3',
         className,
       )}
     >

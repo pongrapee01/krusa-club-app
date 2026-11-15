@@ -69,7 +69,7 @@ export function MasterSectionTabs({
                 className={cn(
                   'relative shrink-0 text-sm font-medium transition-colors',
                   'focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50',
-                  'max-md:rounded-xl max-md:border max-md:px-3 max-md:py-2',
+                  'max-md:rounded-full max-md:shadow-ed-raised max-md:border max-md:px-3 max-md:py-2',
                   isActive
                     ? 'max-md:border-blue-200 max-md:bg-blue-50 max-md:text-blue-700'
                     : 'max-md:border-slate-200 max-md:bg-white max-md:text-slate-600 max-md:hover:border-slate-300 max-md:hover:bg-slate-50',

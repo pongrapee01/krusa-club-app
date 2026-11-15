@@ -83,8 +83,8 @@ export function LoginModal({ onClose }: LoginModalProps) {
       >
         <div
           className={cn(
-            'relative w-full overflow-hidden rounded-[24px] border border-slate-200/90 bg-white',
-            'shadow-[0_12px_30px_rgba(15,23,42,0.08),0_4px_16px_rgba(37,99,235,0.06)]',
+            'relative w-full overflow-hidden rounded-[32px] border border-white/80 bg-white',
+            'shadow-ed-card-hover',
           )}
         >
           <div
@@ -110,7 +110,7 @@ export function LoginModal({ onClose }: LoginModalProps) {
             </button>
 
             <div className="flex flex-col items-center gap-4 pr-10 text-center sm:pr-12">
-              <div className="flex size-[4.5rem] items-center justify-center rounded-2xl border border-blue-100 bg-white p-3 shadow-sm ring-4 ring-blue-50/80">
+              <div className="flex size-[4.5rem] items-center justify-center rounded-3xl border border-blue-100 bg-white p-3 shadow-ed-raised ring-4 ring-blue-50/80">
                 <img
                   src={logo}
                   alt="Krusa Club"
@@ -170,7 +170,7 @@ export function LoginModal({ onClose }: LoginModalProps) {
 
             {serverError ? (
               <div
-                className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+                className="rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
                 role="alert"
               >
                 {serverError}

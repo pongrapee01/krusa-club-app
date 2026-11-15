@@ -18,15 +18,15 @@ import { cn } from '@/lib/utils'
 import logo from '@/assets/logo.png'
 
 const iconBtnClass =
-  'inline-flex shrink-0 items-center justify-center rounded-xl p-2 text-slate-600 min-h-[44px] min-w-[44px] touch-manipulation border border-slate-200 bg-white shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40 focus-visible:ring-offset-2'
+  'inline-flex shrink-0 items-center justify-center rounded-full p-2 text-slate-600 min-h-[44px] min-w-[44px] touch-manipulation border border-slate-200 bg-gradient-to-b from-white to-slate-50 shadow-ed-btn-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40 focus-visible:ring-offset-2'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
-    'rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-200 min-h-[44px] touch-manipulation md:min-h-9',
+    'rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 min-h-[44px] touch-manipulation md:min-h-9',
     'inline-flex items-center justify-center gap-2',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/45 focus-visible:ring-offset-2',
     isActive
-      ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20 hover:bg-blue-500'
+      ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white shadow-ed-btn-primary hover:from-blue-400'
       : 'text-slate-600 hover:bg-blue-50 hover:text-slate-900',
   )
 
@@ -217,7 +217,7 @@ export function AppHeader() {
             <button
               type="button"
               aria-label="การแจ้งเตือน"
-              className="relative inline-flex min-h-[44px] min-w-[44px] shrink-0 touch-manipulation items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40"
+              className="relative inline-flex min-h-[44px] min-w-[44px] shrink-0 touch-manipulation items-center justify-center rounded-full border border-slate-200 bg-gradient-to-b from-white to-slate-50 text-slate-500 shadow-ed-btn-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50 hover:text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40"
             >
               <Bell className="size-5" aria-hidden />
               {notificationCount > 0 && (
@@ -239,7 +239,7 @@ export function AppHeader() {
                 aria-haspopup="menu"
                 aria-controls={`${accountAvatarId}-desktop-menu`}
                 onClick={() => setAccountMenuOpen((o) => !o)}
-                className="size-10 shrink-0 overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 shadow-sm transition hover:border-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/45"
+                className="size-10 shrink-0 overflow-hidden rounded-full border-2 border-white bg-slate-100 shadow-ed-btn-soft transition hover:border-blue-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/45"
               >
                 {profileAvatarUrl ? (
                   <img
@@ -259,7 +259,7 @@ export function AppHeader() {
                   id={`${accountAvatarId}-desktop-menu`}
                   role="menu"
                   aria-labelledby={`${accountAvatarId}-desktop-trigger`}
-                  className="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-[0_12px_30px_rgba(15,23,42,0.08)]"
+                  className="absolute right-0 z-50 mt-2 w-56 overflow-hidden rounded-3xl border border-white/80 bg-white py-1 shadow-ed-card"
                 >
                   <p className="truncate px-4 py-2.5 text-xs text-slate-500" role="presentation">
                     {authedEmail ?? 'Signed in'}
@@ -343,7 +343,7 @@ export function AppHeader() {
                 aria-haspopup="menu"
                 aria-controls={`${accountAvatarId}-mobile-menu`}
                 onClick={() => setAccountMenuOpen((o) => !o)}
-                className="size-11 shrink-0 overflow-hidden rounded-full border-2 border-slate-200 bg-slate-100 shadow-sm"
+                className="size-11 shrink-0 overflow-hidden rounded-full border-2 border-white bg-slate-100 shadow-ed-btn-soft"
               >
                 {profileAvatarUrl ? (
                   <img
@@ -363,7 +363,7 @@ export function AppHeader() {
                   id={`${accountAvatarId}-mobile-menu`}
                   role="menu"
                   aria-labelledby={`${accountAvatarId}-mobile-trigger`}
-                  className="mt-2 w-full overflow-hidden rounded-2xl border border-slate-200 bg-white py-1 shadow-sm"
+                  className="mt-2 w-full overflow-hidden rounded-3xl border border-slate-100 bg-white py-1 shadow-ed-raised"
                 >
                   <p className="break-all px-4 py-2 text-xs text-slate-500" role="presentation">
                     {authedEmail ?? 'Signed in'}

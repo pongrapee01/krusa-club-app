@@ -16,16 +16,16 @@ export function Pagination({ page, totalPages, totalItems, onPageChange, classNa
 
   const btnClass = (enabled: boolean) =>
     cn(
-      'inline-flex min-h-10 min-w-10 items-center justify-center rounded-xl border transition',
+      'inline-flex min-h-10 min-w-10 items-center justify-center rounded-full border transition-all duration-200',
       enabled
-        ? 'border-slate-200 bg-white text-slate-600 shadow-sm hover:border-slate-300 hover:bg-slate-50'
+        ? 'border-slate-200 bg-gradient-to-b from-white to-slate-50 text-slate-600 shadow-ed-btn-soft hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50'
         : 'cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300',
     )
 
   return (
     <div
       className={cn(
-        'flex flex-col items-stretch justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center',
+        'flex flex-col items-stretch justify-between gap-3 rounded-3xl border border-white/80 bg-white px-4 py-3 shadow-ed-card sm:flex-row sm:items-center',
         className,
       )}
     >
