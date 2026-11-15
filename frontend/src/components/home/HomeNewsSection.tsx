@@ -171,7 +171,7 @@ function NewsCard({ item }: { item: NewsItem }) {
           >
             {item.tag}
           </span>
-          <span className="shrink-0 rounded-lg bg-white/90 px-2 py-1 text-[11px] font-medium text-slate-700 ring-1 ring-slate-200/80">
+          <span className="shrink-0 rounded-full bg-white/90 px-2.5 py-1 text-[11px] font-medium text-slate-700 ring-1 ring-slate-200/80">
             {item.date}
           </span>
         </div>
@@ -201,12 +201,12 @@ export function HomeNewsSection() {
 
   return (
     <section
-      className={cn(ed.surface, 'p-4 sm:rounded-3xl sm:p-6')}
+      className={cn(ed.surface, 'p-4 sm:p-6')}
       aria-labelledby={`${baseId}-news-heading`}
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 items-start gap-3">
-          <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-slate-50 shadow-sm ring-1 ring-slate-100 sm:size-12">
+          <div className="grid size-11 shrink-0 place-items-center rounded-full border border-white bg-gradient-to-b from-white to-slate-100 shadow-ed-btn-soft ring-1 ring-slate-100 sm:size-12">
             <Newspaper className="size-5 text-orange-600 sm:size-6" aria-hidden />
           </div>
           <div className="min-w-0">
@@ -235,9 +235,9 @@ export function HomeNewsSection() {
               aria-selected={i === tab}
               aria-controls={`${baseId}-panel-${t.id}`}
               className={cn(
-                'rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 sm:px-4',
+                'rounded-full px-4 py-2.5 text-left text-sm font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-400 sm:px-4',
                 i === tab
-                  ? 'bg-orange-600 text-white shadow-sm ring-1 ring-orange-400/45'
+                  ? 'bg-gradient-to-b from-orange-500 to-orange-600 text-white shadow-ed-btn'
                   : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
               )}
               onClick={() => setTab(i)}

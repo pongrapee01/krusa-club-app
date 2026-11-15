@@ -82,7 +82,7 @@ export function RolesPermissionsPage() {
       </header>
 
       <div className={cn(ed.surface, 'p-4 sm:p-5')}>
-        <div className="mb-4 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-3 text-sm text-slate-700">
+        <div className="mb-4 flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-3 text-sm text-slate-700">
           <Shield className="mt-0.5 size-5 shrink-0 text-blue-600" aria-hidden />
           <p className="leading-relaxed">
             การเปลี่ยนแปลงสิทธิ์ควรบันทึก audit ทุกครั้ง และควรแยก scope โรงเรียน (school_id) เมื่อรองรับหลายโรงเรียน
@@ -112,7 +112,7 @@ export function RolesPermissionsPage() {
                       <td key={role} className="px-3 py-2.5 text-center">
                         <input
                           type="checkbox"
-                          className="size-4 rounded border-slate-300 text-blue-600 focus:ring-blue-400/40"
+                          className="size-4 rounded-md border-slate-300 text-blue-600 focus:ring-blue-400/40"
                           checked={matrix[perm][role]}
                           onChange={() => toggle(perm, role)}
                           aria-label={`${permissionLabels[perm]} — ${roleLabels[role]}`}

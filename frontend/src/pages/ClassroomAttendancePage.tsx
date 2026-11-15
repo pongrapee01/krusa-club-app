@@ -164,7 +164,7 @@ export function ClassroomAttendancePage() {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-2">
           <div className="flex items-center gap-3">
-            <div className="grid size-11 shrink-0 place-items-center rounded-2xl border border-slate-200 bg-slate-50 shadow-sm ring-1 ring-slate-100 sm:size-12">
+            <div className="grid size-11 shrink-0 place-items-center rounded-full border border-white bg-gradient-to-b from-white to-slate-100 shadow-ed-btn-soft ring-1 ring-slate-100 sm:size-12">
               <ClipboardCheck className="size-5 text-emerald-600 sm:size-6" aria-hidden />
             </div>
             <div>
@@ -187,7 +187,7 @@ export function ClassroomAttendancePage() {
                   if (viewMode === 'smart') void query.refetch()
                 }}
                 className={cn(
-                  'flex min-h-[52px] flex-col items-start gap-1 rounded-2xl border px-4 py-3 text-left transition',
+                  'flex min-h-[52px] flex-col items-start gap-1 rounded-3xl border px-4 py-3 text-left shadow-ed-raised transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
                   rollScope === 'period'
                     ? 'border-orange-400/55 bg-orange-600/25 text-white ring-1 ring-orange-400/30'
                     : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
@@ -208,7 +208,7 @@ export function ClassroomAttendancePage() {
                   if (viewMode === 'smart') void query.refetch()
                 }}
                 className={cn(
-                  'flex min-h-[52px] flex-col items-start gap-1 rounded-2xl border px-4 py-3 text-left transition',
+                  'flex min-h-[52px] flex-col items-start gap-1 rounded-3xl border px-4 py-3 text-left shadow-ed-raised transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
                   rollScope === 'homeroom'
                     ? 'border-teal-400/55 bg-teal-700/30 text-white ring-1 ring-teal-400/25'
                     : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
@@ -236,7 +236,7 @@ export function ClassroomAttendancePage() {
                     void query.refetch()
                   }}
                   className={cn(
-                    'inline-flex min-h-[44px] items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-semibold transition',
+                    'inline-flex min-h-[44px] items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-ed-btn-soft transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
                     viewMode === 'smart'
                       ? 'border-orange-400/55 bg-orange-600/90 text-white shadow-md shadow-orange-950/30'
                       : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
@@ -249,7 +249,7 @@ export function ClassroomAttendancePage() {
                   type="button"
                   onClick={() => setViewMode('history')}
                   className={cn(
-                    'inline-flex min-h-[44px] items-center gap-2 rounded-2xl border px-4 py-2 text-sm font-semibold transition',
+                    'inline-flex min-h-[44px] items-center gap-2 rounded-full border px-5 py-2 text-sm font-semibold shadow-ed-btn-soft transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]',
                     viewMode === 'history'
                       ? 'border-sky-400/55 bg-sky-600/85 text-white shadow-md shadow-sky-950/30'
                       : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300 hover:bg-slate-50',
@@ -290,7 +290,7 @@ export function ClassroomAttendancePage() {
       ) : null}
 
       {!enabled ? (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200/80">
+        <div className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200/80">
           ยังไม่ได้ตั้งค่า <code className={ed.code}>VITE_API_BASE_URL</code> — ระบบเช็คชื่อจะเรียก API ไม่ได้
           <span className={cn('mt-2 block', ed.textWarning)}>
             ถ้าต้องการดู UI การ์ดรายชื่อโดยไม่มี backend ให้ตั้ง{' '}
@@ -300,14 +300,14 @@ export function ClassroomAttendancePage() {
       ) : null}
 
       {isAttendanceRollCallMockEnabled() ? (
-        <div className="rounded-2xl border border-violet-200 bg-violet-50 p-4 text-sm text-violet-900 ring-1 ring-violet-200/80">
+        <div className="rounded-3xl border border-violet-200 bg-violet-50 p-4 text-sm text-violet-900 ring-1 ring-violet-200/80">
           <strong className="font-semibold text-violet-950">โหมด mock:</strong> แสดงรายชื่อตัวอย่างจาก{' '}
           <code className={ed.code}>src/mocks/attendanceRollCallMock.ts</code> — ปุ่มบันทึกจะไม่ยิง API จริง
         </div>
       ) : null}
 
       {enabled && viewMode === 'history' && !historyAtValid ? (
-        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200/80">
+        <div className="rounded-3xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 ring-1 ring-amber-200/80">
           เลือก<strong className="font-semibold text-amber-950"> วันและเวลา </strong>ใน datetime picker ให้ครบ
           (รูปแบบ ปี-เดือน-วัน และชั่วโมง:นาที) แล้วระบบจะโหลดแผ่นเช็คชื่อให้อัตโนมัติ
         </div>
@@ -325,7 +325,7 @@ export function ClassroomAttendancePage() {
       ) : null}
 
       {enabled && query.isError ? (
-        <div className="space-y-3 rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800 ring-1 ring-rose-200/80">
+        <div className="space-y-3 rounded-3xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-800 ring-1 ring-rose-200/80">
           <p className="font-medium text-rose-900">โหลดข้อมูลไม่สำเร็จ</p>
           <p className="text-rose-700">{errorMessage(query.error)}</p>
           {viewMode === 'smart' ? (
@@ -349,12 +349,12 @@ export function ClassroomAttendancePage() {
           <SmartSessionBanner session={session} viewMode={viewMode} requestedScope={rollScope} />
 
           {saveOk ? (
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800 ring-1 ring-emerald-200/80">
+            <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-3 text-sm text-emerald-800 ring-1 ring-emerald-200/80">
               {saveOk}
             </div>
           ) : null}
           {saveErr ? (
-            <div className="rounded-2xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800 ring-1 ring-rose-200/80">
+            <div className="rounded-3xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-800 ring-1 ring-rose-200/80">
               {saveErr}
             </div>
           ) : null}
@@ -404,7 +404,7 @@ export function ClassroomAttendancePage() {
                 setSaveErr(null)
                 void saveMutation.mutateAsync()
               }}
-              className="inline-flex h-12 min-w-[11rem] shrink-0 items-center justify-center rounded-full border border-sky-400/50 bg-sky-500 px-6 text-sm font-semibold text-white shadow-md shadow-sky-950/40 transition-colors hover:bg-sky-400 disabled:pointer-events-none disabled:opacity-45"
+              className="inline-flex h-12 min-w-[11rem] shrink-0 items-center justify-center rounded-full border border-sky-400/50 bg-gradient-to-b from-sky-400 to-sky-500 px-6 text-sm font-semibold text-white shadow-ed-btn transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45"
             >
               {saveMutation.isPending ? 'กำลังบันทึก…' : 'บันทึกทั้งแผ่น'}
             </button>
@@ -498,7 +498,7 @@ function LegendStrip() {
         <div
           key={s}
           className={cn(
-            'flex min-w-0 items-center gap-2 rounded-xl border border-slate-200 bg-white px-2.5 py-1.5 text-xs',
+            'flex min-w-0 items-center gap-2 rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-xs',
             ed.textSub,
           )}
         >

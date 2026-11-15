@@ -217,7 +217,7 @@ export function LoginAccountsPage() {
           </button>
           <button
             type="button"
-            className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200 transition hover:bg-amber-50"
+            className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 shadow-ed-raised hover:-translate-y-0.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200 transition hover:bg-amber-50"
             onClick={() => setResetTarget(r)}
           >
             <KeyRound className="size-3.5" aria-hidden />
@@ -226,7 +226,7 @@ export function LoginAccountsPage() {
           {r.status === 'locked' ? (
             <button
               type="button"
-              className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200 transition hover:bg-emerald-50"
+              className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 shadow-ed-raised hover:-translate-y-0.5 text-xs font-medium text-emerald-700 ring-1 ring-emerald-200 transition hover:bg-emerald-50"
               onClick={() => applyUnlock(r)}
             >
               <Unlock className="size-3.5" aria-hidden />
@@ -236,7 +236,7 @@ export function LoginAccountsPage() {
             <button
               type="button"
               disabled={r.status === 'disabled'}
-              className="inline-flex items-center gap-1 rounded-xl px-2.5 py-1.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200 transition hover:bg-amber-50 disabled:opacity-40"
+              className="inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 shadow-ed-raised hover:-translate-y-0.5 text-xs font-medium text-amber-700 ring-1 ring-amber-200 transition hover:bg-amber-50 disabled:opacity-40"
               onClick={() => {
                 setLockReason('')
                 setLockTarget(r)
@@ -389,7 +389,7 @@ export function LoginAccountsPage() {
             value={lockReason}
             onChange={(e) => setLockReason(e.target.value)}
             rows={2}
-            className={cn(ed.input, 'mt-1 resize-y py-2')}
+            className={cn(ed.textarea, 'mt-1 resize-y')}
             placeholder="เช่น สงสัยการเข้าถึงผิดปกติ"
           />
         </label>

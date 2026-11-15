@@ -1,6 +1,6 @@
 ## Page and Menu Design (Updated — aligned with ER Model v2)
 
-> **อัพเดทล่าสุด**: 2026-04-26
+> **อัพเดทล่าสุด**: 2026-11-15 (UI Design System v2)
 > อิงจาก ER Diagram ใหม่ที่ประกอบด้วยตาราง:
 > `Title`, `UserProfile`, `Contact`, `Address`, `system_status`,
 > `UserRoles`, `Roles`, `Menus`, `Role_menu`
@@ -9,9 +9,46 @@
 
 ### Core Principles
 - ทุก feature และทุกเมนูต้องรองรับ **Responsive Web Design (RWD)** เสมอ
-- โทนสีหลักของระบบ: **พื้นหลังน้ำเงินเข้มโปร่งแสง (glass/dark blue)** + **ตัวอักษรขาว** + **ปุ่ม/เมนู active ส้มเข้ม / hover ส้มอ่อนโปร่งแสง**
+- โทนสีหลักของระบบ: **Clean Adventure Learning (ธีมสว่าง)** — พื้นหลังขาว/ฟ้าอ่อน (`#F8FAFC` → `#EFF6FF`), ตัวอักษร slate เข้ม (`#0F172A`), ปุ่ม/เมนู active **น้ำเงิน `#2563EB`**, สีเสริม sky / amber / emerald / rose / orange
 - ฟอนต์หลัก: **Sarabun / TH Sarabun New fallback**
 - UI ต้องรองรับทั้ง desktop และ mobile (touch target เหมาะสม, เมนูพับได้)
+- สไตล์ component: **มีมิติ + ขอบมน ไม่มีเหลี่ยม** (UI v2 — ดูหัวข้อ UI Design System ด้านล่าง)
+
+---
+
+### UI Design System (UI v2 — มีมิติ + ขอบมน)
+
+> อัพเดท 2026-11-15 — คงโทนสีเดิมทั้งหมด ปรับเฉพาะรูปทรง, เงา และ interaction
+
+**ที่มาของค่า**
+- Class bundles กลาง: `frontend/src/lib/edtech-ui.ts` (`ed.*`, `edPress`) — หน้าใหม่ควรใช้ค่าจากที่นี่ ไม่ hardcode class เอง
+- Shadow tokens: `frontend/src/index.css` ใน `@theme` → ใช้เป็น class `shadow-ed-*`
+
+**รูปทรง (Radius)**
+| Element | Radius | Token |
+|---|---|---|
+| Card / panel / ตาราง | 28px | `ed.surface`, `ed.tableWrap` |
+| กล่องย่อยใน card | 24px (`rounded-3xl`) | `ed.surfaceInner` |
+| ปุ่ม, input, select, tab, เมนู, badge | แคปซูล (`rounded-full`) | `ed.btn*`, `ed.input`, `ed.select`, `ed.badge` |
+| Textarea | 24px (`rounded-3xl`) | `ed.textarea` |
+| Modal (Login) | 32px | — |
+| Avatar / icon tile | วงกลม | — |
+
+**ความมีมิติ (Depth)**
+| Token | ใช้กับ |
+|---|---|
+| `shadow-ed-card` | Card / panel หลัก (เงาหลายชั้น + ไฮไลต์ขอบบน) |
+| `shadow-ed-card-hover` | Card ที่คลิกได้ตอน hover, modal |
+| `shadow-ed-raised` | กล่องย่อย, ปุ่ม action เล็ก |
+| `shadow-ed-inset` | Input / select (ดูเป็นช่องลึก) |
+| `shadow-ed-btn-primary` / `-success` / `-accent` | ปุ่มสีหลัก — เงาเป็นสีเดียวกับปุ่ม |
+| `shadow-ed-btn-soft` | ปุ่มรอง / ปุ่มไอคอนพื้นขาว |
+| `shadow-ed-btn` | ปุ่มสีอื่น (sky / orange) |
+
+**Interaction**
+- ปุ่มมีพื้นไล่สีเบาๆ (`from-*-500 to-*-600`) + `edPress`: hover ยกขึ้น 2px, กดยุบ (`scale 0.98`)
+- `ed.surface` **ไม่ยก**เมื่อ hover (ใช้กับ container ใหญ่ / modal) — การ์ดที่คลิกได้ให้ใช้ `ed.surfaceHover` (ยก 4px + เงาเข้มขึ้น)
+- Focus ring: `ring-4` สีจางของสีปุ่ม
 
 ---
 

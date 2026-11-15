@@ -91,7 +91,7 @@ This project is a web application for teachers and students to manage classroom 
 | งาน | รายละเอียด |
 |-----|------------|
 | **เขียนโค้ด** | React components, pages, hooks, services, CSS/Tailwind |
-| **ออกแบบ UI** | Generate mockup image ก่อน implement, dark glass theme |
+| **ออกแบบ UI** | ทำ demo / mockup ให้ดูก่อน implement — ธีมสว่าง Clean Adventure + UI v2 (มีมิติ, ขอบมน) ตาม `Page-and-Menu-Design.md` |
 | **Backend** | .NET API endpoints, EF Core queries, FluentValidation |
 | **DB / Migration** | SQL migration scripts ตาม ER model |
 | **เอกสาร** | อัพเดท Page-and-Menu-Design.md, Frontend-API-Contract.md, Project-plan.md |

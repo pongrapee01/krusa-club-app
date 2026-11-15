@@ -8,10 +8,10 @@ import { cn } from '@/lib/utils'
 
 const subLinkClass = ({ isActive }: { isActive: boolean }) =>
   cn(
-    'flex min-h-[44px] items-center gap-2 rounded-2xl px-4 py-2.5 text-sm font-medium transition-colors touch-manipulation',
+    'flex min-h-[44px] items-center gap-2 rounded-full px-4 py-2.5 text-sm font-medium transition-all touch-manipulation',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/40 focus-visible:ring-offset-2',
     isActive
-      ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/15 hover:bg-blue-500'
+      ? 'bg-gradient-to-b from-blue-500 to-blue-600 text-white shadow-ed-btn-primary hover:from-blue-400'
       : 'text-slate-600 hover:bg-blue-50 hover:text-slate-900',
   )
 
@@ -19,7 +19,7 @@ const subNavChrome =
   'border-slate-200 bg-white/95 backdrop-blur-sm'
 
 const iconBtnClass =
-  'inline-flex min-h-[40px] min-w-[40px] shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/35'
+  'inline-flex min-h-[40px] min-w-[40px] shrink-0 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-700 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/35'
 
 export function SubNavSidebar() {
   const {

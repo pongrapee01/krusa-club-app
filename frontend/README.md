@@ -25,6 +25,11 @@ npm run dev
 - `npm run lint`
 - `npm run format`
 
+## UI design system
+- ใช้ class bundles จาก `src/lib/edtech-ui.ts` (`ed.surface`, `ed.btnPrimary`, `ed.input`, …) แทนการเขียน class เอง
+- เงาแบบมีมิติ: `shadow-ed-*` (กำหนดใน `src/index.css` → `@theme`)
+- กติกา: โทนสีเดิม, ขอบมน (card 28px, ปุ่ม/input แคปซูล), ปุ่ม hover ยก / กดยุบ — รายละเอียดดู `../Page-and-Menu-Design.md` หัวข้อ **UI Design System**
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

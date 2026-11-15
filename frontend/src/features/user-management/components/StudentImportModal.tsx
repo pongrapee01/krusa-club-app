@@ -128,7 +128,7 @@ export function StudentImportModal({ open, onClose, onImported }: StudentImportM
               rows={8}
               spellCheck={false}
               className={cn(
-                ed.input,
+                ed.textarea,
                 'mt-1 font-mono text-xs',
               )}
               placeholder="วางเนื้อหา CSV ที่นี่…"
@@ -150,7 +150,7 @@ export function StudentImportModal({ open, onClose, onImported }: StudentImportM
                 ) : null}
               </p>
               {parsed.errors.length > 0 ? (
-                <div className="max-h-32 overflow-y-auto rounded-lg border border-amber-200 bg-amber-50 p-2 text-xs text-amber-900">
+                <div className="max-h-32 overflow-y-auto rounded-3xl border border-amber-200 bg-amber-50 p-2 text-xs text-amber-900">
                   <p className="mb-1 font-medium text-amber-800">รายการแถวที่ไม่นำเข้า</p>
                   <ul className="list-inside list-disc space-y-0.5">
                     {parsed.errors.map((err, i) => (

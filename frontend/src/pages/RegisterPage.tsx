@@ -90,7 +90,7 @@ export function RegisterPage() {
       </div>
 
       <div className="flex items-center gap-3 sm:gap-4">
-        <div className="shrink-0 rounded-2xl border border-blue-100 bg-white p-2.5 shadow-sm ring-4 ring-blue-50/80">
+        <div className="shrink-0 rounded-3xl border border-blue-100 bg-white p-2.5 shadow-ed-raised ring-4 ring-blue-50/80">
           <img
             src={logo}
             alt="Krusa Club"
@@ -107,14 +107,14 @@ export function RegisterPage() {
         onSubmit={onSubmit}
         className={cn(
           ed.surface,
-          'space-y-4 p-4 sm:rounded-3xl sm:p-6',
+          'space-y-4 p-4 sm:p-6',
         )}
         noValidate
       >
         <div
           role="tablist"
           aria-label="ขั้นตอนลงทะเบียน"
-          className="flex gap-1 rounded-2xl border border-slate-200 bg-slate-50/90 p-1"
+          className="flex gap-1 rounded-full border border-slate-200 bg-slate-50/90 p-1 shadow-ed-inset"
         >
           <button
             type="button"
@@ -125,8 +125,8 @@ export function RegisterPage() {
             onClick={() => setActiveTab('profile')}
             className={
               activeTab === 'profile'
-                ? 'flex-1 rounded-xl bg-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm shadow-blue-600/20'
-                : 'flex-1 rounded-xl py-2.5 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-900'
+                ? 'flex-1 rounded-full bg-gradient-to-b from-blue-500 to-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-ed-btn-primary'
+                : 'flex-1 rounded-full py-2.5 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-900'
             }
           >
             ข้อมูลส่วนตัว
@@ -140,8 +140,8 @@ export function RegisterPage() {
             onClick={() => void goToAccount()}
             className={
               activeTab === 'account'
-                ? 'flex-1 rounded-xl bg-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-sm shadow-blue-600/20'
-                : 'flex-1 rounded-xl py-2.5 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-900'
+                ? 'flex-1 rounded-full bg-gradient-to-b from-blue-500 to-blue-600 py-2.5 text-center text-sm font-semibold text-white shadow-ed-btn-primary'
+                : 'flex-1 rounded-full py-2.5 text-center text-sm font-medium text-slate-600 transition-colors hover:bg-white hover:text-slate-900'
             }
           >
             บัญชี
@@ -267,7 +267,7 @@ export function RegisterPage() {
 
         {serverError && (
           <div
-            className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
+            className="rounded-3xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700"
             role="alert"
           >
             {serverError}
@@ -275,7 +275,7 @@ export function RegisterPage() {
         )}
 
         {successMessage && (
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+          <div className="rounded-3xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
             {successMessage}
           </div>
         )}
